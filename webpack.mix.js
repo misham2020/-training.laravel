@@ -23,4 +23,4 @@ const mix = require('laravel-mix');
  
  mix.copyDirectory('resources/front/img', 'public/img');
  
- mix.browserSync('laravel.loc');
+ mix.browserSync('localhost');
