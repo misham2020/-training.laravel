@@ -8,9 +8,7 @@
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 </head>
 <body>
-
 Content
-
 <script src="{{ asset('js/scripts.js') }}"></script>
 
 </body>

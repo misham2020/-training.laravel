@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 }); */
-Route::get('/', function () {
-    return view('layouts.layout');
-});
+
+Route::get('/', [AdsController::class, 'index']);

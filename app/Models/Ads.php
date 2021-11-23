@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Ads extends Model
 {
     use HasFactory;
+
+
+    public function user() {
+		return $this->belongsTo('App\Models\User');
+	}
+
+    public function cat() {
+		return $this->belongsToMany(Category::class,'ads_category', 'ads_id', 'category_id');
+	}
 }
