@@ -19,3 +19,5 @@ Route::get('/', function () {
 }); */
 
 Route::get('/', [AdsController::class, 'index']);
+Route::get('/category/{id}', [AdsController::class, 'showCategory']);
+Route::get('/category/ads/{id}', [AdsController::class, 'showAds']);

@@ -7,9 +7,22 @@ use App\Models\Category;
 
 class AdsController extends Controller
 {
-	public function index()
+    public function index()
+    {
+        $category = Category::all();
+        return view('contentPageCategory', compact("category"));
+    }
+    public function showCategory($id)
     {
 
-       return view('layouts.layout');
+        $cat = Category::find($id);
+        $category = Category::find($id)->ads()->get();
+
+        return view('contentPageAds', compact("category", "cat"));
+    }
+    public function showAds($id)
+    {
+        $ads = Ads::find($id);
+        return view('showAdsPage', compact("ads"));
     }
 }
