@@ -23,6 +23,7 @@ class AdsController extends Controller
     public function showAds($id)
     {
         $ads = Ads::find($id);
+
         return view('showAdsPage', compact("ads"));
     }
 }

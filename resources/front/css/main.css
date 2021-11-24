@@ -27,6 +27,7 @@ footer {
     padding-top: 3rem;
     padding-bottom: 3rem;
 }
+img.image { width: 100px; border: none; }
 
 footer p {
     margin-bottom: .25rem;

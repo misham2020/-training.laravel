@@ -1,3 +1,4 @@
+@if($category)
 <div class="conteiner">
     <div class="raw">
         <div class="col md 6">
@@ -9,3 +10,4 @@
         </div>
     </div>
 </div>
+@endif
