@@ -11,6 +11,11 @@
                         <h4>
                             Стоимость:{{ $ads->cost }}
                         </h4>
+                        <h4>
+                        @foreach($category as $item)
+                            категория:{{ $item->title }}
+                        @endforeach
+                        </h4>
                     </div>
                 </div>
             </div>

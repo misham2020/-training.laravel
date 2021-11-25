@@ -9,21 +9,26 @@ class AdsController extends Controller
 {
     public function index()
     {
-        $category = Category::all();
-        return view('contentPageCategory', compact("category"));
+      
+        $category = Category::withCount('ads')->orderByDesc('ads_count')->get();
+
+        return view('contentPageCategory', compact('category'));
     }
-    public function showCategory($id)
+
+    public function showCategory(int $id)
     {
 
-        $cat = Category::find($id);
-        $category = Category::find($id)->ads()->get();
+        $cat = Category::findOrFail($id);
+        $category = Category::find($id)->ads()->paginate(2);
 
-        return view('contentPageAds', compact("category", "cat"));
+        return view('contentPageAds', compact('category', 'cat'));
     }
-    public function showAds($id)
-    {
-        $ads = Ads::find($id);
 
-        return view('showAdsPage', compact("ads"));
+    public function showAds(int $id)
+    {
+        $ads = Ads::findOrFail($id);
+        $category = Ads::find($id)->cat()->get();
+
+        return view('showAdsPage', compact('ads', 'category'));
     }
 }

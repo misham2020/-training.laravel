@@ -10,6 +10,7 @@
                     <li><a href="{{'ads/'. $item->id }}">{{ $item->title }}</a></li>
                 @endforeach
             </ul>
+            {{$category->links()}}
         </div>
     </div>
 </div>
