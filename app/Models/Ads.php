@@ -11,10 +11,13 @@ class Ads extends Model
 
 
     public function user() {
-		return $this->belongsTo('App\Models\User');
+		return $this->belongsTo(User::class);
 	}
 
     public function cat() {
 		return $this->belongsToMany(Category::class,'ads_category', 'ads_id', 'category_id');
+	}
+	public function imges() {
+		return $this->hasMany(Image::class);
 	}
 }
