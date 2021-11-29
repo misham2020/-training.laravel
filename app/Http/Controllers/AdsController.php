@@ -4,30 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Ads;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class AdsController extends Controller
 {
     public function index()
     {
+        return view('index.indexPage');
+    }
+
+    public function category()
+    {
       
         $category = Category::withCount('ads')->orderByDesc('ads_count')->get();
 
-        return view('contentPageCategory', compact('category'));
+        return view('category.contentPageCategory', compact('category'));
+    }
+
+    public function ads()
+    {
+        $ads = Ads::orderBy('title')->paginate(15);
+        
+        return view('ads.adsPage', compact('ads'));
     }
 
     public function showCategory(int $id)
     {
         $cat = Category::findOrFail($id);
         $category = Category::findOrFail($id)->ads()->paginate(2);
-
-        return view('contentPageAds', compact('category', 'cat'));
+    
+        return view('listAds.contentPageAds', compact('category', 'cat'));
     }
 
-    public function showAds(int $id)
+    public function showAds($slug, $id)
     {
         $ads = Ads::findOrFail($id);
-        $category = Ads::findOrFail($id)->cat()->get();
 
-        return view('showAdsPage', compact('ads', 'category'));
+        return view('showAds.showAdsPage', compact('ads'));
     }
 }

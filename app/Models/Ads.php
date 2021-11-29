@@ -21,4 +21,5 @@ class Ads extends Model
 	public function imges() {
 		return $this->hasMany(Image::class);
 	}
+
 }

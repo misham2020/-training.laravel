@@ -2,4 +2,4 @@
 
 @extends('header')
 
-@extends('showAds')
+@extends('listAds.listAds')

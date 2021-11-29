@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdsController;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 }); */
 
-Route::get('/', [AdsController::class, 'index']);
-Route::get('/category/{id}', [AdsController::class, 'showCategory']);
-Route::get('/category/ads/{id}', [AdsController::class, 'showAds']);
+
+Route::get('/', [AdsController::class, 'index'])->name('index');
+Route::get('/category', [AdsController::class, 'category'])->name('category');
+Route::get('/ads', [AdsController::class, 'ads'])->name('ads');
+Route::get('/ads/{id}', [AdsController::class, 'showCategory'])->name('category.ads');
+Route::get('/ads/{slug}/{id}', [AdsController::class, 'showAds']);

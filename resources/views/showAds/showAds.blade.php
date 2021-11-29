@@ -15,11 +15,9 @@
                         </h4>
                         <h4>
                         категория:
-                        @if($category)
-                        @foreach($category as $item)
-                            {{ $item->title }}
-                        @endforeach
-                        @endif
+                            @foreach($ads->cat as $item)
+                                {{ $item->title }}
+                            @endforeach
                         </h4>
                     </div>
                 </div>
