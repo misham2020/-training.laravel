@@ -12,6 +12,7 @@ class Ads extends Model
 	use Sluggable;
     
 	protected $table = 'ads';
+	protected $fillable = ['title','cost', 'slug', 'user_id'];
 
     public function user() {
 		return $this->belongsTo(User::class);

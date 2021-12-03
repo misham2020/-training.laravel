@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MySite</title>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/buttons.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
 </head>
 <body>
     @yield('header')
 <script src="{{ asset('js/scripts.js') }}"></script>
+<script src="{{ asset('js/bootstrap-filestyle.js') }}"></script>
+<script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+
+
 
 </body>
 </html>

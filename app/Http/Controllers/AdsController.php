@@ -10,7 +10,9 @@ class AdsController extends Controller
 {
     public function index()
     {
-        return view('index.indexPage');
+        $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
+        
+        return view('index.indexPage', compact('category'));
     }
 
     public function category()
@@ -36,7 +38,7 @@ class AdsController extends Controller
         return view('listAds.contentPageAds', compact('category', 'cat'));
     }
 
-    public function showAds($slug, $id)
+    public function showAds(string $slug, int $id)
     {
         $ads = Ads::findOrFail($id);
 
