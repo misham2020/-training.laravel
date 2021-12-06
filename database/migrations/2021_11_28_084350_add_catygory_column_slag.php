@@ -15,7 +15,7 @@ class AddCatygoryColumnSlag extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             //   
-            $table->string('slug');
+            $table->string('slug')->nullable();
                       
         });
     }

@@ -16,7 +16,7 @@ class ChengeImagesTable extends Migration
         Schema::table('images', function (Blueprint $table) {
             //   
             $table->integer('ads_id')->unsigned()->default(1);
-            $table->foreign('ads_id')->references('id')->on('ads');            
+            $table->foreign('ads_id')->references('id')->on('ads')->onDelete('cascade');            
         });
     }
 

@@ -1,21 +1,16 @@
 @section('create')
 <div id="content-page" class="content group">
 <div class="hentry group">
-{!! Form::open(['url' => (isset($ads->id)) ? route('update', $ads->id) : route('store'),'class'=>'contact-form','method'=>'POST','enctype'=>'multipart/form-data']) !!}
+{!! Form::open(['url' => (isset($ads->id)) ? route('update.publication', $ads->id) : route('store.publication'), 'class'=>'contact-form','method'=>'POST','enctype'=>'multipart/form-data']) !!}
 	<ul>
 		<li class="text-field">
-			<label for="Ad-Title">
-				<span class="label">Заголовок объявления:</span>
-				<br />
-			</label>
+		{!!Form::label('Ad-Title', 'Заголовок объявления:', ['class' => 'label'])!!}
 			<div class="input-prepend"><span class="add-on"></span>
 			{!! Form::text('title',isset($ads->title) ? $ads->title  : old('title'), ['placeholder'=>'Введите название объявления']) !!}
 			 </div>
 		 </li>
 			<li class="text-field">
-				<label for="cost">
-					<span class="label">Стоимость</span><br />
-				</label>
+			{!!Form::label('cost', 'Стоимость:', ['class' => 'label'])!!}
 				<div class="input-prepend"><span class="add-on"></span>
 				{!! Form::number('cost',isset($ads->cost) ? $ads->cost  : old('cost'), ['placeholder'=>'Введите стоимость объявления']) !!}
 				 </div>
@@ -23,45 +18,45 @@
 		@if(isset($ads))
 		@foreach($ads->imges as $item)
 			<li class="textarea-field">
-				<label>
-					 <span class="label">Фото объявления:</span>
-				</label>
-				{{ Html::image(asset('/img/'.$item->path.'.jpg','',['style'=>'width:400px'])) }}
+			{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
+				{{ Html::image(asset('/img/'.$item->path,'',['style'=>'width:400px'])) }}
 				{!! Form::hidden('old_image',$item->path) !!}
-			
-				</li>
 		@endforeach
+			<div class="input-prepend">
+				{!! Form::file('image', ['class' => 'filestyle','data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
+			 </div>
+				</li>
 		@else
 		<li class="text-field">
-			<label for="Photo-ads">
-				<br />
-				<span class="label">Фото объявления</span><br />
-			</label>
+		{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
 			<div class="input-prepend">
-				{!! Form::file('image', ['class' => 'filestyle','data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>"Файла нет"]) !!}
+				{!! Form::file('images[]', ['multiple' => true, 'class' => 'filestyle','data-buttonText'=>'Выберите изображение',
+				'data-buttonName'=>"btn-primary",'data-placeholder'=>"Файла нет"]) !!} 
 			 </div>
 			 
 		</li>	
 		@endif
 	<li class="text-field">
-			<label for="Ad-category">
-				<br />
-				<span class="label">Категория объявления</span><br />
-			</label>
+	{!!Form::label('Ad-category', 'Категория объявления:', ['class' => 'label'])!!}
 			@if(isset($ads))
-			@foreach($ads->cat as $item)
-			<div class="input-prepend">
-				{!! Form::select('category_id', $item->id) !!}
-			</div>
-			@endforeach
+			@foreach ($categories as $category) 
+			<select name="category[]" multiple>
+			@foreach($cat as $key => $item)
+				<option @if ($category->id == $key) selected @endif value="{{ $key }}">{{ $item }}</option>
+			@endforeach 
+			</select>
+			@endforeach 
             @else
 			<div class="input-prepend">
-				{!! Form::select('category_id', $lists, '') !!}
+			<select name="category[]" multiple>
+			@foreach($lists as $key => $valeu)
+				<option  value="{{ $key }}">{{ $valeu }}</option>
+			@endforeach
+			</select>
 			</div>
 			@endif 
-	</li>	 
-		
-		@if(isset($article->id))
+	</li>	
+		@if(isset($ads->id))
 			<input type="hidden" name="_method" value="PUT">		
 		
 		@endif
@@ -72,6 +67,8 @@
 	</ul>
  
 {!! Form::close() !!}
+
+
 </div>
 </div>	
 @endsection

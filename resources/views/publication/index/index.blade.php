@@ -1,63 +1,30 @@
 @section('index')
 @if($ads)
-	<div id="content-page" class="content group">
-				            <div class="hentry group">
-				                <h2>Добавленные объявление</h2>
-				                <div class="short-table white">
-				                    <table style="width: 100%" cellspacing="0" cellpadding="0">
-				                        <thead>
-				                            <tr>
-				                                <th class="align-left">ID</th>
-				                                <th>Заголовок</th>
-				                                {{-- <th>Текст</th> --}}
-				                                <th>Изображение</th>
-				                                <th>Категория</th>
-				                                <th>Псевдоним</th>
-				                                <th>Дествие</th>
-				                            </tr>
-				                        </thead>
-				                        <tbody>
-				                            
+	<div class="container">
+				                <div class="row">
+				                    <div class="col-md-12">
+				                        <h1>Добавленные объявления:</h1>
 											@foreach($ads as $item)
-											<tr>
-				                                <td class="align-left">{{$item->id}}</td>
-				                                <td class="align-left">{!! Html::link(route('edit', $item->id), $item->title) !!}</td>
-				                                {{-- <td class="align-left">{{str_limit($article->text,200)}}</td> --}}
-                                                @foreach($item->imges as $img)
-				                                <td><img src="{{ asset('img/'.$img->path.'.jpg') }}" width="75" alt="">
-												
+											<div>
+				                                <div class="align-left">№объявления:{{$item->id}}</div>
+				                               <div class="align-left">Заголовок объявления:{!! Html::link(route('edit.publication', $item->id), $item->title) !!}</div>
+												@foreach($item->imges as $img)
+				                                <img class="img-responsive" src="{{ asset('img/'.$img->path) }}" width="200" alt="">
                                                 @endforeach
-													{{-- @if(isset($article->img->mini))
-													{!! Html::image(asset(config('settings.theme')).'/images/articles/'.$article->img->mini) !!}
-													{{ Html::image(asset('img/'.$img->path.'.jpg','',['style'=>'width:75px']) }}
-													@endif --}}
-												</td>
-                                                @foreach($item->cat as $category)
-				                                <td>{{$category->title}}</td>
-                                                @endforeach
-				                                <td>{{$item->slug}}</td>
-				                                <td>
-												{!! Form::open(['url' => route('destroy', $item->id),'class'=>'form-horizontal','method'=>'POST']) !!}
+				                                <div>
+												{!! Form::open(['url' => route('destroy.publication', $item->id),'class'=>'form-horizontal','method'=>'POST']) !!}
 												    {{ method_field('DELETE') }}
 												    {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit']) !!}
 												{!! Form::close() !!}
-												</td>
-                                                
-											 </tr>	
-											@endforeach	
-				                           
-				                        </tbody>
-				                    </table>
+												</div>
+											 </div>	
+											@endforeach	   
+				                    </div>
 				                </div>
-								
-								 {!! Html::link(route('create'),'Добавить  материал',['class' => 'btn btn-the-salmon-dance-3']) !!}
-                                
-				                
+                                {!! Html::link(route('create.publication'),'Добавить  материал',['class' => 'btn btn-the-salmon-dance-3']) !!} 
 				            </div>
-				            <!-- START COMMENTS -->
-				            <div id="comments">
-				            </div>
-				            <!-- END COMMENTS -->
-				        </div>
+	 </div>
+@else
+<div><h2>У Вас пока нет объявлений</h2></div>
 @endif
 @endsection

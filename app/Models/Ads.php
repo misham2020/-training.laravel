@@ -9,10 +9,10 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Ads extends Model
 {
     use HasFactory;
-	use Sluggable;
+	//use Sluggable;
     
 	protected $table = 'ads';
-	protected $fillable = ['title','cost', 'slug', 'user_id'];
+	protected $fillable = ['title','cost', 'user_id'];
 
     public function user() {
 		return $this->belongsTo(User::class);
@@ -31,13 +31,13 @@ class Ads extends Model
      *
      * @return array
      */
-    public function sluggable(): array
+   /*  public function sluggable(): array
     {
         return [
             'slug' => [
                 'source' => 'title'
             ]
         ];
-    }
+    } */
 	
 }

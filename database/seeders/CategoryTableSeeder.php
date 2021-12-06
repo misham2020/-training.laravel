@@ -16,12 +16,31 @@ class CategoryTableSeeder extends Seeder
     {
         DB::table('categories')->insert(
             [
-                ['title' => "телевизоры"],
-                ['title' => "инструменты"],
-                ['title' => "климатическое оборудование"],
-                ['title' => "одежда"],
-                ['title' => "продукты питания"],
+                'title' => "телевизоры",
+                 'slug' => "televisor" 
             ]
-        );
+            
+        );   
+        DB::table('categories')->insert(
+            
+            [
+                'title' => "инструменты",
+                'slug' => "instrument"
+            ]
+        ); 
+        DB::table('categories')->insert(
+            
+            [
+                'title' => "одежда",
+                'slug' => "odejda"
+            ]
+        );  
+        DB::table('categories')->insert(
+            
+            [
+                'title' => "продукты питания",
+                'slug' => "produkt_pitanij"
+            ]
+        );  
     }
 }

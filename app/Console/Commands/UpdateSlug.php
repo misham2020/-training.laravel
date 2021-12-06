@@ -39,12 +39,12 @@ class UpdateSlug extends Command
      */
     public function handle()
     {
-        $adsis = Ads::all();
+        /* $adsis = Ads::all();
         $adsis->each(function(Ads $ads){
             $ads->slug = SlugService::createSlug(Ads::class, 'slug', $ads->title);
             $ads->save();  
         });
         return Command::SUCCESS;
-        
+         */
     }
 }

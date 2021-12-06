@@ -17,11 +17,11 @@ class ChengeAdsCategoryTable extends Migration
             //
             
             $table->integer('ads_id')->unsigned()->default(1);
-            $table->foreign('ads_id')->references('id')->on('ads');
+            $table->foreign('ads_id')->references('id')->on('ads')->onDelete('cascade');
             
             
             $table->integer('category_id')->unsigned()->default(1);
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             
         });
     }

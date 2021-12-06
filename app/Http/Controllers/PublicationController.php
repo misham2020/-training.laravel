@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ads;
+use App\Models\Image;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\AdsRepository\AdsRepository;
 
 class PublicationController extends Controller
 {
@@ -15,11 +17,16 @@ class PublicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(AdsRepository $a_rep) {
+        $this->a_rep = $a_rep;
+    }
+    
     public function index()
     {
-        $ads = Ads::all();
-        $category = Category::all();
-        return view('publication.index.indexPage', compact('ads', 'category'));
+        $user = Auth::user()->id;
+        $ads = Ads::where('user_id', $user)->get();
+
+        return view('publication.index.indexPage', compact('ads'));
     }
 
     /**
@@ -29,10 +36,7 @@ class PublicationController extends Controller
      */
     public function create()
     {
-        $lists = Category::select(['title','id'])->get()->reduce(function ($carry, $item) {
-        $carry[$item->id] = $item->title;
-        return $carry;
-        }, []);
+        $lists = $this->a_rep->listsCategory();
 
        return view('publication.create.createPage' , compact('lists'));
 
@@ -46,24 +50,11 @@ class PublicationController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->hasFile('image')) {
-			$image = $request->file('image');
-        }
-        $title = $request->input('title');
-        $cost = $request->input('cost');
-        $user = Auth::user()->id;
-        $ads = new Ads;
-        $ads->create([
-            'title' => $title,
-            'cost' => $cost,
-            'user_id' => $user
-        ]);
-        $ads_id = DB::getPdo()->lastInsertId();
-        $category_id = $request->input('category_id');
-        DB::table('ads_category')->insert([
-            'category_id' => $category_id,
-            'ads_id' => $ads_id,
-         ]);
+
+    
+        $ads_id = $this->a_rep->addAds($request);
+        $this->a_rep->addCatigory($request, $ads_id);
+        $this->a_rep->addImg($request, $ads_id); 
     }
 
     /**
@@ -75,6 +66,7 @@ class PublicationController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -86,6 +78,10 @@ class PublicationController extends Controller
     public function edit($id)
     {
         //
+        $cat = $this->a_rep->listsCategory();
+        $categories = Ads::findOrFail($id)->cat()->get();
+        $ads = Ads::findOrFail($id);
+        return view('publication.create.createPage' , compact('ads', 'cat', 'categories'));
     }
 
     /**
@@ -98,6 +94,7 @@ class PublicationController extends Controller
     public function update(Request $request, $id)
     {
         //
+
     }
 
     /**
@@ -109,5 +106,9 @@ class PublicationController extends Controller
     public function destroy($id)
     {
         //
+        $ads = Ads::find($id);
+        $ads->delete();
+        return redirect('/publication');
+
     }
 }
