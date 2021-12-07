@@ -14,33 +14,17 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert(
-            [
-                'title' => "телевизоры",
-                 'slug' => "televisor" 
-            ]
-            
-        );   
-        DB::table('categories')->insert(
-            
-            [
-                'title' => "инструменты",
-                'slug' => "instrument"
-            ]
-        ); 
-        DB::table('categories')->insert(
-            
-            [
-                'title' => "одежда",
-                'slug' => "odejda"
-            ]
-        );  
-        DB::table('categories')->insert(
-            
-            [
-                'title' => "продукты питания",
-                'slug' => "produkt_pitanij"
-            ]
-        );  
+        $cat = ['телевизоры' => 'televisor', 'инструменты' => 'instrument', 'одежда' => 'odejda', 'продукты питания' => 'produkt_pitanij'];
+        $category_count = DB::table('categories')->count();
+        if(empty($category_count)){
+        foreach ($cat as $key => $value) {
+             DB::table('categories')->insert(
+                 [
+                     'title' => $key,
+                     'slug' => $value
+                 ]
+         );
+        }  
     }
+    }   
 }
