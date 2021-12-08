@@ -19,11 +19,11 @@
 		@foreach($ads->imges as $item)
 			<li class="textarea-field">
 			{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
-				{{ Html::image(asset('/img/'.$item->path,'',['style'=>'width:400px'])) }}
+				{{ Html::image(asset('/img/'.$item->path, ''))}} 
 				{!! Form::hidden('old_image',$item->path) !!}
 		@endforeach
 			<div class="input-prepend">
-				{!! Form::file('image', ['class' => 'filestyle','data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
+				{!! Form::file('images[]', ['multiple' => true,'class' => 'filestyle','style'=>'width:200', 'data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
 			 </div>
 				</li>
 		@else
@@ -53,8 +53,10 @@
 				<option  value="{{ $key }}">{{ $valeu }}</option>
 			@endforeach
 			</select>
+			
 			</div>
 			@endif 
+
 	</li>	
 		@if(isset($ads->id))
 			<input type="hidden" name="_method" value="PUT">		
@@ -67,7 +69,12 @@
 	</ul>
  
 {!! Form::close() !!}
-
+{{-- <style>
+.img1 { 
+    w: 120%; 
+    
+   }
+</style> --}}
 
 </div>
 </div>	

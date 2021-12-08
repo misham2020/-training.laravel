@@ -17,6 +17,7 @@ class PublicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function __construct(AdsRepository $a_rep) {
         $this->a_rep = $a_rep;
     }
@@ -55,6 +56,7 @@ class PublicationController extends Controller
         $ads_id = $this->a_rep->addAds($request);
         $this->a_rep->addCatigory($request, $ads_id);
         $this->a_rep->addImg($request, $ads_id); 
+        return redirect('/publication');
     }
 
     /**
@@ -80,6 +82,7 @@ class PublicationController extends Controller
         //
         $cat = $this->a_rep->listsCategory();
         $categories = Ads::findOrFail($id)->cat()->get();
+        //dd($categories);
         $ads = Ads::findOrFail($id);
         return view('publication.create.createPage' , compact('ads', 'cat', 'categories'));
     }
@@ -93,8 +96,13 @@ class PublicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-
+        $data = $request->except('_token', '_method');
+        $ads = Ads::findOrFail($id);
+        $ads = $ads->fill($data);
+        $ads->update();
+        $this->a_rep->updateCategory_id($data, $id);
+        $this->a_rep->updateImage($request, $id);
+        return redirect('/publication');
     }
 
     /**

@@ -25,6 +25,7 @@ class AdsRepository
         $ads_id = DB::getPdo()->lastInsertId();
         return $ads_id;
     }
+
     public function addCatigory($request, $ads_id)
     {
         $category = $request->category;
@@ -36,6 +37,7 @@ class AdsRepository
          ]);
         }
     }
+
     public function addImg($request, $ads_id)
     {
         if($request->hasFile('images')) {
@@ -50,6 +52,7 @@ class AdsRepository
         ]); 
     }
     }
+
     public function listsCategory()
     {
         $lists = Category::select(['title','id'])
@@ -59,5 +62,35 @@ class AdsRepository
               return $carry;
         }, []);
         return $lists;
+    }
+
+    public function updateCategory_id($data, $id)
+    {
+        $ads = Ads::findOrFail($id);
+        foreach ($data['category'] as $value)
+        {
+            foreach ($ads->cat as  $cat) {
+                if($cat->id != $value){
+                     DB::table('ads_category')->insert([
+                       'category_id' => $value,
+                       'ads_id' => $ads->id ]);
+                }
+            }
+        }
+    }
+
+    public function updateImage($request, $id)
+    {
+        if($request->hasFile('images')) {
+			$images = $request->file('images');
+        }
+        $ads = Ads::findOrFail($id);
+        $img = new Image();
+        foreach ($images as  $image) {    
+        $image = $image->getClientOriginalName();
+        Image::firstOrCreate([
+            'path' => $image,
+            'ads_id' => $ads->id ]);
+        }
     }
 }
