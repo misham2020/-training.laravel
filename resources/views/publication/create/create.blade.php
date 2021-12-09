@@ -9,7 +9,7 @@
 			{!! Form::text('title',isset($ads->title) ? $ads->title  : old('title'), ['placeholder'=>'Введите название объявления']) !!}
 			 </div>
 		 </li>
-			<li class="text-field">
+		<li class="text-field">
 			{!!Form::label('cost', 'Стоимость:', ['class' => 'label'])!!}
 				<div class="input-prepend"><span class="add-on"></span>
 				{!! Form::number('cost',isset($ads->cost) ? $ads->cost  : old('cost'), ['placeholder'=>'Введите стоимость объявления']) !!}
@@ -17,15 +17,18 @@
 		</li>
 		@if(isset($ads))
 		@foreach($ads->imges as $item)
-			<li class="textarea-field">
+			<li class="img-field">
 			{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
-				{{ Html::image(asset('/img/'.$item->path, ''))}} 
+				{{ Html::image(asset('/img/'.$item->path, '', array('id' => $item->id)))}} 
 				{!! Form::hidden('old_image',$item->path) !!}
+				<a class="btn btn-french-5" href="{{ route('destroy.image', $item->id) }}">удалить</a>
+			</li>
 		@endforeach
+		<li>
 			<div class="input-prepend">
-				{!! Form::file('images[]', ['multiple' => true,'class' => 'filestyle','style'=>'width:200', 'data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
+				{!! Form::file('images[]', ['multiple' => true,'class' => 'filestyle', 'data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
 			 </div>
-				</li>
+		</li>
 		@else
 		<li class="text-field">
 		{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
@@ -46,6 +49,8 @@
 			@endforeach 
 			</select>
 			@endforeach 
+	  
+
             @else
 			<div class="input-prepend">
 			<select name="category[]" multiple>
@@ -69,12 +74,6 @@
 	</ul>
  
 {!! Form::close() !!}
-{{-- <style>
-.img1 { 
-    w: 120%; 
-    
-   }
-</style> --}}
 
 </div>
 </div>	

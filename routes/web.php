@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdsController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PublicationController;
@@ -41,7 +42,7 @@ Route::group(['prefix' => 'publication/', 'middleware'=> 'auth'],function() {
     Route::DELETE('/{id}', [PublicationController::class, 'destroy'])->name('destroy.publication');
 
 });
-
+Route::get('/image/{id}', [ImageController::class, 'destroy'])->name('destroy.image');
 Auth::routes(); 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

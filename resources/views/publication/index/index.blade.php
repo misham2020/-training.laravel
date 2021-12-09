@@ -1,5 +1,5 @@
 @section('index')
-@if($ads)
+@if(count($ads))
 	<div class="container">
 				                <div class="row">
 				                    <div class="col-md-12">
@@ -25,6 +25,7 @@
 				            </div>
 	 </div>
 @else
-<div><h2>У Вас пока нет объявлений</h2></div>
+<h2>У Вас пока нет объявлений</h2>
+{!! Html::link(route('create.publication'),'Добавить  материал',['class' => 'btn btn-the-salmon-dance-3']) !!} 
 @endif
 @endsection

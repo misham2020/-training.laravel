@@ -51,8 +51,6 @@ class PublicationController extends Controller
      */
     public function store(Request $request)
     {
-
-    
         $ads_id = $this->a_rep->addAds($request);
         $this->a_rep->addCatigory($request, $ads_id);
         $this->a_rep->addImg($request, $ads_id); 
@@ -82,7 +80,6 @@ class PublicationController extends Controller
         //
         $cat = $this->a_rep->listsCategory();
         $categories = Ads::findOrFail($id)->cat()->get();
-        //dd($categories);
         $ads = Ads::findOrFail($id);
         return view('publication.create.createPage' , compact('ads', 'cat', 'categories'));
     }
@@ -116,7 +113,7 @@ class PublicationController extends Controller
         //
         $ads = Ads::find($id);
         $ads->delete();
-        return redirect('/publication');
+       return redirect('/publication');
 
     }
 }

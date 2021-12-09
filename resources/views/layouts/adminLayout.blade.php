@@ -9,13 +9,13 @@
     <link href="{{ asset('css/buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/reset.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-minifieldreset.css') }}" rel="stylesheet">
     
     
 </head>
 <body>
    @yield('index')
+   
 <script src="{{ asset('js/scripts.js') }}"></script>
 <script src="{{ asset('js/bootstrap-filestyle.js') }}"></script>
 <script src="{{ asset('js/jquery.js') }}"></script>
