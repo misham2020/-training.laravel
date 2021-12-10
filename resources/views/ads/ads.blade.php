@@ -1,4 +1,4 @@
-@if($ads)
+@if(isset($ads))
 <div class="conteiner">
     <div class="raw">
         <div class="col md 6">

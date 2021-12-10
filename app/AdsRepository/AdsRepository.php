@@ -42,14 +42,16 @@ class AdsRepository
     {
         if($request->hasFile('images')) {
 			$images = $request->file('images');
-        }
+        
+
         foreach ($images as $image) {
         $img = new image();
-        $image = $image->getClientOriginalName();
+        $image = $image->store('uploads', 'public');
         $img->create([
             'path' => $image,
             'ads_id' => $ads_id
         ]); 
+    }
     }
     }
 
@@ -81,16 +83,18 @@ class AdsRepository
 
     public function updateImage($request, $id)
     {
-        if($request->hasFile('images')) {
+         if($request->hasFile('images')) { 
 			$images = $request->file('images');
-        }
+        
         $ads = Ads::findOrFail($id);
         $img = new Image();
         foreach ($images as  $image) {    
-        $image = $image->getClientOriginalName();
+        /* $image = $image->getClientOriginalName(); */
+        $image = $image->store('uploads', 'public');
         Image::firstOrCreate([
             'path' => $image,
             'ads_id' => $ads->id ]);
         }
+    }
     }
 }

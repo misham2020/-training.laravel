@@ -3,7 +3,7 @@
         <div class="col-md-6">
         <h3>Список категорий:</h3>
             <ul>
-            @if($category)
+            @if(isset($category))
             @foreach($category as $item)
                 <li><a href="{{'ads/'. $item->id }}">{{ $item->title }}</a></li>
             @endforeach

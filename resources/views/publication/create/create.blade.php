@@ -19,9 +19,10 @@
 		@foreach($ads->imges as $item)
 			<li class="img-field">
 			{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
-				{{ Html::image(asset('/img/'.$item->path, '', array('id' => $item->id)))}} 
+				{{ Html::image(asset('storage/'.$item->path, ''))}} 
 				{!! Form::hidden('old_image',$item->path) !!}
 				<a class="btn btn-french-5" href="{{ route('destroy.image', $item->id) }}">удалить</a>
+
 			</li>
 		@endforeach
 		<li>
@@ -42,15 +43,13 @@
 	<li class="text-field">
 	{!!Form::label('Ad-category', 'Категория объявления:', ['class' => 'label'])!!}
 			@if(isset($ads))
-			@foreach ($categories as $category) 
 			<select name="category[]" multiple>
+			@foreach ($categories as $category) 
 			@foreach($cat as $key => $item)
 				<option @if ($category->id == $key) selected @endif value="{{ $key }}">{{ $item }}</option>
 			@endforeach 
-			</select>
 			@endforeach 
-	  
-
+			</select>
             @else
 			<div class="input-prepend">
 			<select name="category[]" multiple>

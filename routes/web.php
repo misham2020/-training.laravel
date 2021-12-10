@@ -33,13 +33,13 @@ Route::get('/ads/{slug}/{id}', [AdsController::class, 'showAds'])->name('show.ad
 
 Route::group(['prefix' => 'publication/', 'middleware'=> 'auth'],function() {
 
-    //Route::resource('/', PublicationController::class);
+//Route::resource('/', PublicationController::class);
     Route::get('/', [PublicationController::class, 'index'])->name('index.publication');
     Route::post('/', [PublicationController::class, 'store'])->name('store.publication');
     Route::get('/create', [PublicationController::class, 'create'])->name('create.publication');
     Route::get('/{id}/edit', [PublicationController::class, 'edit'])->name('edit.publication');
     Route::put('/{id}/update', [PublicationController::class, 'update'])->name('update.publication');
-    Route::DELETE('/{id}', [PublicationController::class, 'destroy'])->name('destroy.publication');
+    Route::DELETE('/{id}', [PublicationController::class, 'destroy'])->name('destroy.publication'); 
 
 });
 Route::get('/image/{id}', [ImageController::class, 'destroy'])->name('destroy.image');
