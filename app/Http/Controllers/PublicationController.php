@@ -79,7 +79,8 @@ class PublicationController extends Controller
     {
         //
         $cat = $this->a_rep->listsCategory();
-        $categories = Ads::findOrFail($id)->cat()->get();
+        //$categories = Ads::findOrFail($id)->cat()->get();
+        $categories = DB::table('ads_category')->get();
         $ads = Ads::findOrFail($id);
         return view('publication.create.createPage' , compact('ads', 'cat', 'categories'));
     }

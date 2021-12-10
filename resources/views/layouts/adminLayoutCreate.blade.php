@@ -11,6 +11,7 @@
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-minifieldreset.css') }}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
 </head>
 <body>
     @yield('create')   
@@ -21,5 +22,6 @@
 <script src="{{ asset('js/scripts.js') }}"></script>
 <script src="{{ asset('js/bootstrap-filestyle.js') }}"></script>
 <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
 </body>
 </html>

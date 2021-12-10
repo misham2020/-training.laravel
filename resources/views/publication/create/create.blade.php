@@ -41,15 +41,27 @@
 		</li>	
 		@endif
 	<li class="text-field">
-	{!!Form::label('Ad-category', 'Категория объявления:', ['class' => 'label'])!!}
 			@if(isset($ads))
-			<select name="category[]" multiple>
+			{!!Form::label('Ad-category', 'Выбранные категории:', ['class' => 'label'])!!}
 			@foreach ($categories as $category) 
 			@foreach($cat as $key => $item)
-				<option @if ($category->id == $key) selected @endif value="{{ $key }}">{{ $item }}</option>
+			<ul>
+					@if ($category->category_id == $key) 
+					<li>{{ $item.'     ' }}<a href="{{ route('destroy.category', $category->id) }}">удалить</a></li>
+					@endif 
+			</ul>
 			@endforeach 
 			@endforeach 
-			</select>
+			<br>
+			<br>
+			<br>
+			<br>
+			{!!Form::label('Ad-category', 'Выберите категорию:', ['class' => 'label'])!!}
+			<select name="category[]" multiple>
+				@foreach($cat as $key => $valeu)
+					<option  value="{{ $key }}">{{ $valeu }}</option>
+				@endforeach
+				</select>
             @else
 			<div class="input-prepend">
 			<select name="category[]" multiple>

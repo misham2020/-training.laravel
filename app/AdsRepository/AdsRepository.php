@@ -65,20 +65,21 @@ class AdsRepository
         }, []);
         return $lists;
     }
+                                                        
+    public function updateCategory_id($data, $id)       
 
-    public function updateCategory_id($data, $id)
     {
         $ads = Ads::findOrFail($id);
         foreach ($data['category'] as $value)
         {
-            foreach ($ads->cat as  $cat) {
-                if($cat->id != $value){
-                     DB::table('ads_category')->insert([
-                       'category_id' => $value,
-                       'ads_id' => $ads->id ]);
-                }
-            }
+            
+             DB::table('ads_category')->updateOrInsert(
+                ['category_id' => $value, 'ads_id' => $ads->id],
+                
+            );
         }
+        
+        
     }
 
     public function updateImage($request, $id)
@@ -89,7 +90,6 @@ class AdsRepository
         $ads = Ads::findOrFail($id);
         $img = new Image();
         foreach ($images as  $image) {    
-        /* $image = $image->getClientOriginalName(); */
         $image = $image->store('uploads', 'public');
         Image::firstOrCreate([
             'path' => $image,
