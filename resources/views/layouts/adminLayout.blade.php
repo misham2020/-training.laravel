@@ -10,17 +10,16 @@
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-minifieldreset.css') }}" rel="stylesheet">
-    
-    
+
+
 </head>
 <body>
-   @yield('index')
-   
+@yield('index')
+
 <script src="{{ asset('js/scripts.js') }}"></script>
 <script src="{{ asset('js/bootstrap-filestyle.js') }}"></script>
 <script src="{{ asset('js/jquery.js') }}"></script>
 <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
-
 
 
 </body>

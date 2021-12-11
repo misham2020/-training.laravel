@@ -9,35 +9,39 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Ads extends Model
 {
     use HasFactory;
-	//use Sluggable;
-    
-	protected $table = 'ads';
-	protected $fillable = ['title','cost', 'user_id'];
 
-    public function user() {
-		return $this->belongsTo(User::class);
-	}
+    //use Sluggable;
 
-    public function cat() {
-		return $this->belongsToMany(Category::class,'ads_category', 'ads_id', 'category_id');
-	}
+    protected $table = 'ads';
+    protected $fillable = ['title', 'cost', 'user_id'];
 
-	public function imges() {
-		return $this->hasMany(Image::class);
-	}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-	/**
+    public function cat()
+    {
+        return $this->belongsToMany(Category::class, 'ads_category', 'ads_id', 'category_id');
+    }
+
+    public function imges()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
      */
-   /*  public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    } */
-	
+    /*  public function sluggable(): array
+     {
+         return [
+             'slug' => [
+                 'source' => 'title'
+             ]
+         ];
+     } */
+
 }

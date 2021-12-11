@@ -1,13 +1,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-        <h3>Список категорий:</h3>
+            <h3>Список категорий:</h3>
             <ul>
-            @if(isset($category))
-            @foreach($category as $item)
-                <li><a href="{{'ads/'. $item->id }}">{{ $item->title }}</a></li>
-            @endforeach
-            @endif
+                @if(isset($category))
+                    @foreach($category as $item)
+                        <li><a href="{{'ads/'. $item->id }}">{{ $item->title }}</a></li>
+                    @endforeach
+                @endif
             </ul>
         </div>
     </div>

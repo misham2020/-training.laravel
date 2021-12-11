@@ -1,31 +1,32 @@
 @section('index')
-@if(isset($ads))
-	<div class="container">
-				                <div class="row">
-				                    <div class="col-md-12">
-				                        <h1>Добавленные объявления:</h1>
-											@foreach($ads as $item)
-											<div>
-				                                <div class="align-left">№объявления:{{$item->id}}</div>
-				                               <div class="align-left">Заголовок объявления:{!! Html::link(route('edit.publication', $item->id), $item->title) !!}</div>
-												@foreach($item->imges as $img)
-				                                <img class="img-responsive" src="{{ asset('storage/'.$img->path) }}" width="200" alt="">
-                                                @endforeach
-				                                <div>
-												{!! Form::open(['url' => route('destroy.publication', $item->id),'class'=>'form-horizontal','method'=>'POST']) !!}
-												    {{ method_field('DELETE') }}
-												    {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit']) !!}
-												{!! Form::close() !!}
-												</div>
-											 </div>	
-											@endforeach	   
-				                    </div>
-				                </div>
-                                {!! Html::link(route('create.publication'),'Добавить  материал',['class' => 'btn btn-the-salmon-dance-3']) !!} 
-				            </div>
-	 </div>
-@else
-<h2>У Вас пока нет объявлений</h2>
-{!! Html::link(route('create.publication'),'Добавить  материал',['class' => 'btn btn-the-salmon-dance-3']) !!} 
-@endif
+    @if(isset($ads))
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Добавленные объявления:</h1>
+                    @foreach($ads as $item)
+                        <div>
+                            <div class="align-left">№объявления:{{$item->id}}</div>
+                            <div class="align-left">Заголовок
+                                объявления:{!! Html::link(route('edit.publication', $item->id), $item->title) !!}</div>
+                            @foreach($item->imges as $img)
+                                <img class="img-responsive" src="{{ asset('storage/'.$img->path) }}" width="200" alt="">
+                            @endforeach
+                            <div>
+                                {!! Form::open(['url' => route('destroy.publication', $item->id),'class'=>'form-horizontal','method'=>'POST']) !!}
+                                {{ method_field('DELETE') }}
+                                {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit']) !!}
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            {!! Html::link(route('create.publication'),'Добавить  материал',['class' => 'btn btn-the-salmon-dance-3']) !!}
+        </div>
+        </div>
+    @else
+        <h2>У Вас пока нет объявлений</h2>
+        {!! Html::link(route('create.publication'),'Добавить  материал',['class' => 'btn btn-the-salmon-dance-3']) !!}
+    @endif
 @endsection

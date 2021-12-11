@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/* 
+/*
 Route::get('/', function () {
     return view('welcome');
 }); */
@@ -31,19 +31,19 @@ Route::get('/ads', [AdsController::class, 'ads'])->name('ads');
 Route::get('/ads/{id}', [AdsController::class, 'showCategory'])->name('category.ads');
 Route::get('/ads/{slug}/{id}', [AdsController::class, 'showAds'])->name('show.ads');
 
-Route::group(['prefix' => 'publication/', 'middleware'=> 'auth'],function() {
+Route::group(['prefix' => 'publication/', 'middleware' => 'auth'], function () {
 
-//Route::resource('/', PublicationController::class);
+
     Route::get('/', [PublicationController::class, 'index'])->name('index.publication');
     Route::post('/', [PublicationController::class, 'store'])->name('store.publication');
     Route::get('/create', [PublicationController::class, 'create'])->name('create.publication');
     Route::get('/{id}/edit', [PublicationController::class, 'edit'])->name('edit.publication');
     Route::put('/{id}/update', [PublicationController::class, 'update'])->name('update.publication');
-    Route::DELETE('/{id}', [PublicationController::class, 'destroy'])->name('destroy.publication'); 
+    Route::DELETE('/{id}', [PublicationController::class, 'destroy'])->name('destroy.publication');
 
 });
 Route::get('/image/{id}', [ImageController::class, 'destroy'])->name('destroy.image');
-Auth::routes(); 
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
