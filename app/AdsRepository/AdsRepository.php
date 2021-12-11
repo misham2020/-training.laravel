@@ -66,20 +66,37 @@ class AdsRepository
         return $lists;
     }
                                                         
-    public function updateCategory_id($data, $id)       
+    public function updateCategory_id($data = false, $id)       
 
     {
         $ads = Ads::findOrFail($id);
+
         foreach ($data['category'] as $value)
         {
-            
+
              DB::table('ads_category')->updateOrInsert(
                 ['category_id' => $value, 'ads_id' => $ads->id],
                 
             );
         }
+
+    }
+    
+    public function deleteCategory_id($data)       
+
+    {
         
-        
+        $category = Category::all()->reduce(function ($carry, $item) {
+            $carry[$item->id] = $item->title;
+            return $carry;
+      }, []);
+        foreach ($category as $key => $item) { 
+        foreach ($data['category'] as $value) {
+            if($key != $value){
+                DB::table('ads_category')->where('category_id', $key )->delete();
+            }
+        } 
+    }
     }
 
     public function updateImage($request, $id)

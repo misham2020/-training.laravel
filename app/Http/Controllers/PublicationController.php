@@ -77,12 +77,9 @@ class PublicationController extends Controller
      */
     public function edit($id)
     {
-        //
         $cat = $this->a_rep->listsCategory();
-        //$categories = Ads::findOrFail($id)->cat()->get();
-        $categories = DB::table('ads_category')->get();
         $ads = Ads::findOrFail($id);
-        return view('publication.create.createPage' , compact('ads', 'cat', 'categories'));
+        return view('publication.create.createPage' , compact('ads', 'cat'));
     }
 
     /**
@@ -95,10 +92,14 @@ class PublicationController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->except('_token', '_method');
+        //dd($data['category']);
         $ads = Ads::findOrFail($id);
         $ads = $ads->fill($data);
         $ads->update();
+        if(isset($data['category'])){
+        $this->a_rep->deleteCategory_id($data);
         $this->a_rep->updateCategory_id($data, $id);
+        }
         $this->a_rep->updateImage($request, $id);
         return redirect('/publication');
     }

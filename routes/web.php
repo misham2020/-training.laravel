@@ -5,7 +5,6 @@ use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PublicationController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +43,6 @@ Route::group(['prefix' => 'publication/', 'middleware'=> 'auth'],function() {
 
 });
 Route::get('/image/{id}', [ImageController::class, 'destroy'])->name('destroy.image');
-Route::get('/category/{id}', [CategoryController::class, 'destroy'])->name('destroy.category');
 Auth::routes(); 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

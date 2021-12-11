@@ -40,28 +40,14 @@
 			 
 		</li>	
 		@endif
-	<li class="text-field">
+	 <li class="text-field">
 			@if(isset($ads))
-			{!!Form::label('Ad-category', 'Выбранные категории:', ['class' => 'label'])!!}
-			@foreach ($categories as $category) 
-			@foreach($cat as $key => $item)
-			<ul>
-					@if ($category->category_id == $key) 
-					<li>{{ $item.'     ' }}<a href="{{ route('destroy.category', $category->id) }}">удалить</a></li>
-					@endif 
-			</ul>
-			@endforeach 
-			@endforeach 
-			<br>
-			<br>
-			<br>
-			<br>
 			{!!Form::label('Ad-category', 'Выберите категорию:', ['class' => 'label'])!!}
-			<select name="category[]" multiple>
-				@foreach($cat as $key => $valeu)
-					<option  value="{{ $key }}">{{ $valeu }}</option>
-				@endforeach
-				</select>
+		     @foreach($cat as $key => $item)
+		    <p><input type="checkbox" name="category[]" value="{{ $key }}" 
+			@foreach ($ads->cat as $category) @if($category->id === $key ) checked @else '' @endif @endforeach>
+			  {{ $item }}</p>
+		    @endforeach
             @else
 			<div class="input-prepend">
 			<select name="category[]" multiple>
@@ -72,8 +58,7 @@
 			
 			</div>
 			@endif 
-
-	</li>	
+	</li> 
 		@if(isset($ads->id))
 			<input type="hidden" name="_method" value="PUT">		
 		
