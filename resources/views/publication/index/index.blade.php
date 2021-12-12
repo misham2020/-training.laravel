@@ -1,4 +1,20 @@
 @section('index')
+    @foreach(['success','danger'] as $status)
+        @if(session()->has($status))
+            <div class="alert alert-{{$status}} text-center">
+                {{session()->get($status)}}
+            </div>
+        @endif
+    @endforeach
+    @if ($errors->any())
+        <div class="alert alert-danger text-center">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     @if(isset($ads))
         <div class="container">
             <div class="row">

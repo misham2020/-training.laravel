@@ -25,6 +25,8 @@ class AdsRequest extends FormRequest
             'file.required' => 'Изображение обязательно',
             'cost.numeric' => 'Цена должна быть числом',
             'cost.min' => 'Цена должна быть больше 1 руб',
+            'images.max' => 'Колличество загружаемых файлов не может быть больше 2',
+            'file.size' => 'Файл не более 250кб'
 
         ];
     }
@@ -40,7 +42,8 @@ class AdsRequest extends FormRequest
             'title' => 'required',
             'cost' => 'required|numeric|min:1',
             'category' => 'required',
-            'images' => 'required|max:250'
+            'images' => 'max:5',
+            'file' => 'max:250'
 
         ];
     }

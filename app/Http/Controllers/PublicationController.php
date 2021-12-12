@@ -53,10 +53,22 @@ class PublicationController extends Controller
      */
     public function store(AdsRequest $request)
     {
-        $ads_id = $this->a_rep->addAds($request);
-        $this->a_rep->addCatigory($request, $ads_id);
-        $this->a_rep->addImg($request, $ads_id);
-        return redirect(route('index.publication'));
+        try {
+            DB::beginTransaction();
+            $ads_id = $this->a_rep->addAds($request);
+            $this->a_rep->addCatigory($request, $ads_id);
+            $this->a_rep->addImg($request, $ads_id);
+
+
+            DB::commit();
+            return redirect(route('index.publication'))->with('success', "Запись была успешно добавлена.");
+        }
+        catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            DB::rollBack();
+        }
+
+        //return redirect(route('index.publication'));
     }
 
     /**
@@ -79,6 +91,7 @@ class PublicationController extends Controller
      */
     public function edit($id)
     {
+
         $cat = $this->a_rep->listsCategory();
         $ads = Ads::findOrFail($id);
         return view('publication.create.createPage', compact('ads', 'cat'));
@@ -94,15 +107,24 @@ class PublicationController extends Controller
     public function update(AdsRequest $request, $id)
     {
         $data = $request->except('_token', '_method');
-        $ads = Ads::findOrFail($id);
-        $ads = $ads->fill($data);
-        $ads->update();
-        if (isset($data['category'])) {
-            $this->a_rep->deleteCategory_id($data);
-            $this->a_rep->updateCategory_id($data, $id);
+        try {
+            DB::beginTransaction();
+            $ads = Ads::findOrFail($id);
+            $ads = $ads->fill($data);
+            $ads->update();
+            if (isset($data['category'])) {
+                $this->a_rep->deleteCategory_id($data, $id);
+                $this->a_rep->updateCategory_id($data, $id);
+            }
+            $this->a_rep->updateImage($request, $id);
+            DB::commit();
+            return redirect(route('index.publication'))->with('success', "Объявление №".$ads->id." была успешно обновлено.");
         }
-        $this->a_rep->updateImage($request, $id);
-        return redirect(route('index.publication'));
+        catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            DB::rollBack();
+        }
+
     }
 
     /**

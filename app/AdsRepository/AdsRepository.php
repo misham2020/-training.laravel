@@ -78,10 +78,9 @@ class AdsRepository
 
     }
 
-    public function deleteCategory_id($data)
+    public function deleteCategory_id($data, $id)
 
     {
-
         $category = Category::all()->reduce(function ($carry, $item) {
             $carry[$item->id] = $item->title;
             return $carry;
@@ -89,7 +88,7 @@ class AdsRepository
         foreach ($category as $key => $item) {
             foreach ($data['category'] as $value) {
                 if ($key != $value) {
-                    DB::table('ads_category')->where('category_id', $key)->delete();
+                    DB::table('ads_category')->where(['ads_id' => $id, 'category_id' => $key])->delete();
                 }
             }
         }
