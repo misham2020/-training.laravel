@@ -96,9 +96,8 @@ class AdsRepository
 
     public function updateImage($request, $id)
     {
-        if ($request->hasFile('images')) {
+       if ($request->hasFile('images')) {
             $images = $request->file('images');
-
             $ads = Ads::findOrFail($id);
             $img = new Image();
             foreach ($images as $image) {

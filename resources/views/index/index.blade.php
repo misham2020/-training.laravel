@@ -11,7 +11,8 @@
             </ul>
         </div>
     </div>
-    <a href="/publication">Мои объявления</a>
+
+    <a href="{{ route('category') }}">Все категории</a>
 </div>
 
 

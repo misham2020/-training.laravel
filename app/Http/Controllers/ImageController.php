@@ -10,7 +10,7 @@ class ImageController extends Controller
     public function destroy($id)
     {
         //
-        $img = Image::find($id);
+        $img = Image::findOrFail($id);
         $img->delete();
         return redirect()->back();
 
