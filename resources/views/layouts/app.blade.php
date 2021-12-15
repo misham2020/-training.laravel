@@ -23,9 +23,16 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                @if (url('/') !== url()->current())
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{--{{ config('app.name', 'Laravels') }}--}}На главную
+                    </a>
+                @endif
+                @if (url('/publication') !== url()->current())
+                        @if (Auth::check())
+                            <a class="navbar-brand" href="{{ route('index.publication') }}">Мои объявления</a>
+                        @endif
+                @endif
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

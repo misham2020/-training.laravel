@@ -1,6 +1,6 @@
 @if($category)
-    <div class="conteiner">
-        <div class="raw">
+    <div class="container">
+        <div class="row">
             <div class="col md 6">
                 @if($cat)
                     {{ $cat->title }}:

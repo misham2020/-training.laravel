@@ -1,11 +1,11 @@
 @if(isset($ads))
-    <div class="banner">
-        <div class="w3l_banner_nav_right">
+    <div class="container">
+        <div class="row">
             <div class="agileinfo_single">
                 <h5>Название:{{ $ads->title }}</h5>
                 @foreach($ads->imges as $item)
 
-                    <img class="img-responsive" src="{{ asset('storage/'.$item->path) }}" width="200" alt="">
+                    <img class="img-responsive" src="{{ asset('storage/'.$item->path) }}" width="500" alt="">
 
                 @endforeach
                 <div class="snipcart-item block">
@@ -14,9 +14,9 @@
                             Стоимость:{{  $ads->cost }}
                         </h4>
                         <h4>
-                            категория:
+                            категория:<br>
                             @foreach($ads->cat as $item)
-                                {{ $item->title.', ' }}
+                                {{ $item->title}}<br>
                             @endforeach
                         </h4>
                     </div>

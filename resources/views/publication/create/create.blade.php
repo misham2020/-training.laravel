@@ -35,22 +35,22 @@
                     @foreach($ads->imges as $item)
 
                         <li class="img-field">
-                            {!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
-                            {{ Html::image(asset('storage/'.$item->path, ''))}}
-                            {!! Form::hidden('old_image',$item->path) !!}
-<!--                         <div>
+                        {!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
+                        {{ Html::image(asset('storage/'.$item->path, ''))}}
+                        {!! Form::hidden('old_image',$item->path) !!}
+                        <!--                         <div>
 
                                 {!! Form::open(['url' => route('destroy.image', $item->id),'class'=>'form-horizontal','method'=>'POST']) !!}
 
-                                {{ method_field('DELETE') }}
-                                {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit']) !!}
-                                {!! Form::close() !!}
+                        {{ method_field('DELETE') }}
+                        {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit']) !!}
+                        {!! Form::close() !!}
                             </div>-->
-                       <a class="btn btn-french-5" href="{{ route('destroy.image', $item->id) }}">удалить</a>
+                            <a class="btn btn-french-5" href="{{ route('destroy.image', $item->id) }}">удалить</a>
 
                         </li>
                     @endforeach
-                    <li>
+                        <li>
                         <div class="input-prepend">
                             {!! Form::file('images[]', ['multiple' => true,'class' => 'filestyle', 'data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
                         </div>
@@ -62,7 +62,6 @@
                             {!! Form::file('images[]', ['multiple' => true, 'class' => 'filestyle','data-buttonText'=>'Выберите изображение',
                             'data-buttonName'=>"btn-primary",'data-placeholder'=>"Файла нет"]) !!}
                         </div>
-
                     </li>
                 @endif
                 <li class="text-field">
@@ -76,14 +75,11 @@
                         @endforeach
                     @else
                         {!!Form::label('Ad-category', 'Выберите категорию:', ['class' => 'label'])!!}
-                        <div class="input-prepend">
-                            <select name="category[]" multiple>
-                                @foreach($lists as $key => $valeu)
-                                    <option value="{{ $key }}">{{ $valeu }}</option>
-                                @endforeach
-                            </select>
+                        @foreach($lists as $key => $item)
 
-                        </div>
+                            <p><input type="checkbox" name="category[]" value="{{ $key }}">{{ $item }}</p>
+
+                        @endforeach
                     @endif
                 </li>
                 @if(isset($ads->id))
@@ -98,6 +94,6 @@
 
             {!! Form::close() !!}
 
-</div>
-</div>
+        </div>
+    </div>
 @endsection

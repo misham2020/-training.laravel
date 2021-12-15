@@ -1,5 +1,6 @@
+@include('layouts.app')
+
 @extends('layouts.layout')
 
-@extends('header')
 
 @extends('ads.ads')
