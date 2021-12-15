@@ -14,6 +14,17 @@
     </div>
 
     <a href="{{ route('category') }}">Все категории</a>
+    <div class="row">
+        <h3>Объявления:</h3>
+        @foreach($ads as $item)
+        <div class="col">
+            <a href="{{'ads/'.$item->cat->first()->slug.'/'. $item->id }}">{{ $item->title }}</a>
+            <img class="img-responsive" src="{{ asset('storage/'.$item->imges->first()->path) }}" width="240px" alt="">
+            {{ $item->cost.'руб' }}
+        </div>
+        @endforeach
+
+    </div>
 </div>
 
 

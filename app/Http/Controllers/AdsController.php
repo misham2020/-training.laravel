@@ -11,13 +11,14 @@ class AdsController extends Controller
     public function index()
     {
         $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
-        
-        return view('index.indexPage', compact('category'));
+        $ads = Ads::all();
+
+        return view('index.indexPage', compact('category', 'ads'));
     }
 
     public function category()
     {
-      
+
         $category = Category::withCount('ads')->orderByDesc('ads_count')->get();
 
         return view('category.contentPageCategory', compact('category'));
@@ -26,7 +27,7 @@ class AdsController extends Controller
     public function ads()
     {
         $ads = Ads::orderBy('title')->paginate(15);
-        
+
         return view('ads.adsPage', compact('ads'));
     }
 
@@ -34,7 +35,7 @@ class AdsController extends Controller
     {
         $cat = Category::findOrFail($id);
         $category = Category::findOrFail($id)->ads()->paginate(2);
-    
+
         return view('listAds.contentPageAds', compact('category', 'cat'));
     }
 
