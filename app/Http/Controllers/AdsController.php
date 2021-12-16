@@ -11,7 +11,7 @@ class AdsController extends Controller
     public function index()
     {
         $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
-        $ads = Ads::all();
+        $ads = Ads::paginate(8);
 
         return view('index.indexPage', compact('category', 'ads'));
     }
