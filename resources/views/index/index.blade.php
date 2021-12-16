@@ -17,7 +17,7 @@
         <h3>Объявления:</h3>
         @foreach($ads as $item)
             <div class="col">
-                <a href="{{'ads/'.$item->cat->first()->slug.'/'. $item->id }}">{{ $item->title }}</a>
+                <a href="{{'ads/'.$item->cat->first()->slug.'/'. $item->id }}"><strong class="title">{{ Str::substr($item->title, 0, 25) }}</strong></a>
                 <img class="img-responsive" src="{{ asset('storage/'.$item->imges->first()->path) }}" width="240px"
                      alt="">
                 {{ $item->cost.'руб' }}

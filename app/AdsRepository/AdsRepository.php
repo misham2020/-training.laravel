@@ -26,7 +26,7 @@ class AdsRepository
         return $ads_id;
     }
 
-    public function addCatigory($request, $ads_id)
+    public function addCatigory($request, int $ads_id)
     {
         $category = $request->category;
         foreach ($category as $key => $value) {
@@ -37,7 +37,7 @@ class AdsRepository
         }
     }
 
-    public function addImg($request, $ads_id)
+    public function addImg($request, int $ads_id)
     {
         if ($request->hasFile('images')) {
             $images = $request->file('images');
@@ -63,7 +63,7 @@ class AdsRepository
         return $lists;
     }
 
-    public function updateCategory_id($data = false, $id)
+    public function updateCategory_id(array $data, int $id)
 
     {
         $ads = Ads::findOrFail($id);
@@ -78,7 +78,7 @@ class AdsRepository
 
     }
 
-    public function deleteCategory_id($data, $id)
+    public function deleteCategory_id(array $data, int $id)
 
     {
         $category = Category::all()->reduce(function ($carry, $item) {
@@ -94,7 +94,7 @@ class AdsRepository
         }
     }
 
-    public function updateImage($request, $id)
+    public function updateImage($request, int $id)
     {
        if ($request->hasFile('images')) {
             $images = $request->file('images');

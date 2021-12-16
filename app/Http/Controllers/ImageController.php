@@ -7,7 +7,7 @@ use App\Models\Image;
 
 class ImageController extends Controller
 {
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
         $img = Image::findOrFail($id);

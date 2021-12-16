@@ -89,7 +89,7 @@ class PublicationController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
 
         $cat = $this->a_rep->listsCategory();
@@ -104,7 +104,7 @@ class PublicationController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AdsRequest $request, $id)
+    public function update(AdsRequest $request, int $id)
     {
         $data = $request->except('_token', '_method');
         try {
@@ -133,7 +133,7 @@ class PublicationController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
         $ads = Ads::find($id);

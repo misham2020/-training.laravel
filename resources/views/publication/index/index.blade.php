@@ -18,7 +18,7 @@
     @if(isset($ads))
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col">
                     <h1>Мои объявления:</h1>
                     @foreach($ads as $item)
                         <div>
@@ -26,7 +26,7 @@
                             <div class="align-left">Заголовок
                                 объявления:{!! Html::link(route('edit.publication', $item->id), $item->title) !!}</div>
                             @foreach($item->imges as $img)
-                                <img class="img-responsive" src="{{ asset('storage/'.$img->path) }}" width="200" alt="">
+                                <img class="img-responsive" src="{{ asset('storage/'.$img->path) }}" width="300" alt="">
                             @endforeach
                             <div>
                                 {!! Form::open(['url' => route('destroy.publication', $item->id),'class'=>'form-horizontal','method'=>'POST']) !!}
