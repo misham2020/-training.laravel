@@ -1,5 +1,6 @@
-@include('layouts.app')
 
-@extends('layouts.layout')
+@extends('layouts.adminLayoutCreate')
 
-@extends('listAds.listAds')
+@section('create')
+    @include('listAds.listAds')
+@endsection

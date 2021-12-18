@@ -1,5 +1,6 @@
-@include('layouts.app')
 
-@extends('layouts.layout')
+@extends('layouts.adminLayoutCreate')
 
-@extends('category.listCatygory')
+@section('create')
+    @include('category.listCatygory')
+@endsection

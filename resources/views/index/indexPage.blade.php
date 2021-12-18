@@ -1,6 +1,6 @@
-@include('layouts.app')
 
-@extends('layouts.layout')
+@extends('layouts.adminLayoutCreate')
 
-@extends('index.index')
-
+@section('create')
+    @include('index.index')
+@endsection

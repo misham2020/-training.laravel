@@ -22,7 +22,7 @@ class PublicationController extends Controller
     public function __construct(AdsRepository $a_rep)
     {
         $this->a_rep = $a_rep;
-    }
+     }
 
     public function index()
     {
@@ -110,8 +110,10 @@ class PublicationController extends Controller
         try {
             DB::beginTransaction();
             $ads = Ads::findOrFail($id);
-            $ads = $ads->fill($data);
-            $ads->update();
+            if (isset($ads)) {
+                $ads = $ads->fill($data);
+                $ads->update();
+            }
             if (isset($data['category'])) {
                 $this->a_rep->deleteCategory_id($data, $id);
                 $this->a_rep->updateCategory_id($data, $id);

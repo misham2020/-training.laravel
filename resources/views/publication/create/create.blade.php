@@ -15,28 +15,26 @@
             </ul>
         </div>
     @endif
-    <div id="content-page" class="content group">
-        <div class="hentry group">
+    <div class="container">
+        <div class="row">
             {!! Form::open(['url' => (isset($ads->id)) ? route('update.publication', $ads->id) : route('store.publication'), 'class'=>'contact-form','method'=>'POST','enctype'=>'multipart/form-data']) !!}
-            <ul>
-                <li class="text-field">
-                    {!!Form::label('Ad-Title', 'Заголовок объявления:', ['class' => 'label'])!!}
-                    <div class="input-prepend"><span class="add-on"></span>
-                        {!! Form::text('title',isset($ads->title) ? $ads->title  : old('title'), ['placeholder'=>'Введите название объявления']) !!}
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <div class="col-md-6">
+                        <div>{!!Form::label('Ad-Title', 'Заголовок объявления:', ['class' => 'h3 label'])!!}</div>
+                        {!! Form::text('title',isset($ads->title) ? $ads->title  : old('title'), ['class' => 'form-control', 'placeholder'=>'Введите название объявления']) !!}
+
+                        {!!Form::label('cost', 'Стоимость:', ['class' => 'h3 label'])!!}
+                        {!! Form::number('cost',isset($ads->cost) ? $ads->cost  : old('cost'), ['class' => 'form-control', 'placeholder'=>'Введите стоимость объявления']) !!}
                     </div>
-                </li>
-                <li class="text-field">
-                    {!!Form::label('cost', 'Стоимость:', ['class' => 'label'])!!}
-                    <div class="input-prepend"><span class="add-on"></span>
-                        {!! Form::number('cost',isset($ads->cost) ? $ads->cost  : old('cost'), ['placeholder'=>'Введите стоимость объявления']) !!}
-                    </div>
-                </li>
+                </div>
                 @if(isset($ads))
                     @foreach($ads->imges as $item)
 
-                        <li class="img-field">
-                        {!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
-                        {{ Html::image(asset('storage/'.$item->path, ''))}}
+                        <div class="col-md-4" class="img-field">
+                            {{--{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}--}}
+                            {{--{{ Html::image(asset('storage/'.$item->path, ''))}}--}}
+                            <img class="img-responsive" src="{{ asset('storage/'.$item->path) }}" width="600" alt="">
                         {!! Form::hidden('old_image',$item->path) !!}
                         <!--                         <div>
 
@@ -48,49 +46,52 @@
                             </div>-->
                             <a class="btn btn-french-5" href="{{ route('destroy.image', $item->id) }}">удалить</a>
 
-                        </li>
+                        </div>
                     @endforeach
-                        <li>
+                    <div class="col-md-6">
                         <div class="input-prepend">
                             {!! Form::file('images[]', ['multiple' => true,'class' => 'filestyle', 'data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
                         </div>
-                    </li>
+                    </div>
                 @else
-                    <li class="text-field">
+                    <div class="col-md-6" class="text-field">
                         {!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
                         <div class="input-prepend">
                             {!! Form::file('images[]', ['multiple' => true, 'class' => 'filestyle','data-buttonText'=>'Выберите изображение',
                             'data-buttonName'=>"btn-primary",'data-placeholder'=>"Файла нет"]) !!}
                         </div>
-                    </li>
+                    </div>
                 @endif
-                <li class="text-field">
+                <div class="form-check form-switch" class="text-field">
                     @if(isset($ads))
-                        {!!Form::label('Ad-category', 'Выберите категорию:', ['class' => 'label'])!!}
+                        {!!Form::label('Ad-category', 'Измените категорию:', ['class' => 'h4 label my-3'])!!}
                         @foreach($cat as $key => $item)
-                            <p><input type="checkbox" name="category[]" value="{{ $key }}"
+                            <p><input class="form-check-input" type="checkbox" name="category[]" value="{{ $key }}"
                                       @foreach ($ads->cat as $category) @if($category->id === $key ) checked @else
                                     '' @endif @endforeach>
                                 {{ $item }}</p>
                         @endforeach
-                    @else
-                        {!!Form::label('Ad-category', 'Выберите категорию:', ['class' => 'label'])!!}
+                </div>
+                @else
+                    <div class="form-check form-switch" class="text-field">
+                        {!!Form::label('Ad-category', 'Выберите категорию:', ['class' => 'h4 label my-3'])!!}
                         @foreach($lists as $key => $item)
 
-                            <p><input type="checkbox" name="category[]" value="{{ $key }}">{{ $item }}</p>
+                            <p><input class="form-check-input" type="checkbox" name="category[]"
+                                      value="{{ $key }}">{{ $item }}</p>
 
                         @endforeach
+                        @endif
+                    </div>
+                    @if(isset($ads->id))
+                        <input type="hidden" name="_method" value="PUT">
+
                     @endif
-                </li>
-                @if(isset($ads->id))
-                    <input type="hidden" name="_method" value="PUT">
+                    <div class="col-md-12" class="submit-button">
+                        {!! Form::button('Сохранить', ['class' => 'btn btn-the-salmon-dance-3','type'=>'submit']) !!}
+                    </div>
 
-                @endif
-                <li class="submit-button">
-                    {!! Form::button('Сохранить', ['class' => 'btn btn-the-salmon-dance-3','type'=>'submit']) !!}
-                </li>
-
-            </ul>
+            </div>
 
             {!! Form::close() !!}
 

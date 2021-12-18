@@ -20,6 +20,11 @@ class Ads extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function flag()
+    {
+        return $this->belongsTo(Flag::class);
+    }
+
     public function cat()
     {
         return $this->belongsToMany(Category::class, 'ads_category', 'ads_id', 'category_id');

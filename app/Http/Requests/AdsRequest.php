@@ -43,7 +43,7 @@ class AdsRequest extends FormRequest
             'cost' => 'required|numeric|min:1',
             'category' => 'required',
             'images' => 'max:5',
-            'file' => 'max:250'
+            'file' => 'file|max:250'
 
         ];
     }
