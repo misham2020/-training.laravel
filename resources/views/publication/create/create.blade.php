@@ -21,10 +21,10 @@
             <div class="col-md-12">
                 <div class="input-group mb-3">
                     <div class="col-md-6">
-                        <div>{!!Form::label('Ad-Title', 'Заголовок объявления:', ['class' => 'h3 label'])!!}</div>
+                        <div>{!!Form::label('Ad-Title', 'Заголовок объявления:', ['class' => 'h3 label my-3'])!!}</div>
                         {!! Form::text('title',isset($ads->title) ? $ads->title  : old('title'), ['class' => 'form-control', 'placeholder'=>'Введите название объявления']) !!}
 
-                        {!!Form::label('cost', 'Стоимость:', ['class' => 'h3 label'])!!}
+                        {!!Form::label('cost', 'Стоимость:', ['class' => 'h3 label my-3'])!!}
                         {!! Form::number('cost',isset($ads->cost) ? $ads->cost  : old('cost'), ['class' => 'form-control', 'placeholder'=>'Введите стоимость объявления']) !!}
                     </div>
                 </div>
@@ -32,30 +32,21 @@
                     @foreach($ads->imges as $item)
 
                         <div class="col-md-4" class="img-field">
-                            {{--{!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}--}}
-                            {{--{{ Html::image(asset('storage/'.$item->path, ''))}}--}}
-                            <img class="img-responsive" src="{{ asset('storage/'.$item->path) }}" width="600" alt="">
-                        {!! Form::hidden('old_image',$item->path) !!}
-                        <!--                         <div>
+                            {!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'h3 label my-3'])!!}
+                            {{ Html::image(asset('storage/'.$item->path), false, ['width' => '600'])}}
+                            {!! Form::hidden('old_image',$item->path) !!}
 
-                                {!! Form::open(['url' => route('destroy.image', $item->id),'class'=>'form-horizontal','method'=>'POST']) !!}
-
-                        {{ method_field('DELETE') }}
-                        {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit']) !!}
-                        {!! Form::close() !!}
-                            </div>-->
-                            <a class="btn btn-french-5" href="{{ route('destroy.image', $item->id) }}">удалить</a>
-
+                            {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit', 'form' => 'data']) !!}
                         </div>
                     @endforeach
                     <div class="col-md-6">
                         <div class="input-prepend">
-                            {!! Form::file('images[]', ['multiple' => true,'class' => 'filestyle', 'data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
+                            {!! Form::file('images[]', ['multiple' => true,'class' => 'filestyle my-3', 'data-buttonText'=>'Выберите изображение','data-buttonName'=>"btn-primary",'data-placeholder'=>""]) !!}
                         </div>
                     </div>
                 @else
                     <div class="col-md-6" class="text-field">
-                        {!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label'])!!}
+                        {!!Form::label('Photo-ads', 'Фото объявления:', ['class' => 'label my-3'])!!}
                         <div class="input-prepend">
                             {!! Form::file('images[]', ['multiple' => true, 'class' => 'filestyle','data-buttonText'=>'Выберите изображение',
                             'data-buttonName'=>"btn-primary",'data-placeholder'=>"Файла нет"]) !!}
@@ -94,7 +85,13 @@
             </div>
 
             {!! Form::close() !!}
-
+            @if(isset($ads))
+                @foreach($ads->imges as $item)
+                    {!! Form::open(['url' => route('destroy.image', $item->id), 'id' => 'data', 'class'=>'form-horizontal','method'=>'POST']) !!}
+                    {{ method_field('DELETE') }}
+                    {!! Form::close() !!}
+                @endforeach
+            @endif
         </div>
     </div>
 @endsection

@@ -34,7 +34,7 @@ class AdsController extends Controller
     public function showCategory(int $id)
     {
         $cat = Category::findOrFail($id);
-        $category = Category::findOrFail($id)->ads()->paginate(2);
+        $category = Category::findOrFail($id)->ads()->paginate(4);
 
         return view('listAds.contentPageAds', compact('category', 'cat'));
     }

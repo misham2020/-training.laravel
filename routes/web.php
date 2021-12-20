@@ -42,7 +42,7 @@ Route::group(['prefix' => 'publication/', 'middleware' => 'auth'], function () {
     Route::DELETE('/{id}', [PublicationController::class, 'destroy'])->name('destroy.publication');
 
 });
-Route::any('/image/{id}', [ImageController::class, 'destroy'])->name('destroy.image');
+Route::DELETE('/image/{id}', [ImageController::class, 'destroy'])->name('destroy.image');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
