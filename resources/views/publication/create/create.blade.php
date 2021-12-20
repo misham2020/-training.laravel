@@ -22,10 +22,10 @@
                 <div class="input-group mb-3">
                     <div class="col-md-6">
                         <div>{!!Form::label('Ad-Title', 'Заголовок объявления:', ['class' => 'h3 label my-3'])!!}</div>
-                        {!! Form::text('title',isset($ads->title) ? $ads->title  : old('title'), ['class' => 'form-control', 'placeholder'=>'Введите название объявления']) !!}
+                        {!! Form::text('title',isset($ads->title) ? $ads->title  : old('title'), ['class' => 'form-control', 'placeholder'=>'Введите название объявления', 'required' => true]) !!}
 
                         {!!Form::label('cost', 'Стоимость:', ['class' => 'h3 label my-3'])!!}
-                        {!! Form::number('cost',isset($ads->cost) ? $ads->cost  : old('cost'), ['class' => 'form-control', 'placeholder'=>'Введите стоимость объявления']) !!}
+                        {!! Form::number('cost',isset($ads->cost) ? $ads->cost  : old('cost'), ['class' => 'form-control', 'placeholder'=>'Введите стоимость объявления', 'required' => true]) !!}
                     </div>
                 </div>
                 @if(isset($ads))
@@ -69,7 +69,7 @@
                         @foreach($lists as $key => $item)
 
                             <p><input class="form-check-input" type="checkbox" name="category[]"
-                                      value="{{ $key }}">{{ $item }}</p>
+                                      value="{{ $key }}" required>{{ $item }} </p>
 
                         @endforeach
                         @endif

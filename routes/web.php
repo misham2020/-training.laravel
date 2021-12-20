@@ -30,6 +30,7 @@ Route::get('/category', [AdsController::class, 'category'])->name('category');
 Route::get('/ads', [AdsController::class, 'ads'])->name('ads');
 Route::get('/ads/{id}', [AdsController::class, 'showCategory'])->name('category.ads');
 Route::get('/ads/{slug}/{id}', [AdsController::class, 'showAds'])->name('show.ads');
+Route::get('/search', [AdsController::class, 'search'])->name('search.ads');
 
 Route::group(['prefix' => 'publication/', 'middleware' => 'auth'], function () {
 

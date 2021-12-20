@@ -45,4 +45,13 @@ class AdsController extends Controller
 
         return view('showAds.showAdsPage', compact('ads'));
     }
+
+    public function search(Request $request)
+    {
+        $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
+        $search = $request->search;
+        $ads = Ads::query()->where('title', 'LIKE', "%{$search}%")->get();
+        return view('index.indexPage', compact('category', 'ads'));
+    }
+
 }
