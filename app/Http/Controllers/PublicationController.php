@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\AdsRepository\AdsRepository;
 use App\Http\Requests\AdsRequest;
+use Illuminate\View\View;
 
 class PublicationController extends Controller
 {
+    /** @var AdsRepository */
+    private $adsRepository;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct(AdsRepository $a_rep)
+    public function __construct(AdsRepository $adsRepository)
     {
-        $this->a_rep = $a_rep;
-     }
+        $this->adsRepository = $adsRepository;
+    }
 
     public function index()
     {
@@ -88,16 +92,24 @@ class PublicationController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function edit(int $id)
+    public function edit(int $id): View
     {
-        $params = '\App\Models\Category';
-        $cat = $this->a_rep->listsModel($params);
-        $ads = Ads::findOrFail($id);
-        /*$ads_cat = Ads::findOrFail($id)->cat()->get();
-        $ads_cat = $this->a_rep->lists($ads_cat);
+        $params = Category::class;
+        $cat = $this->adsRepository->listsModel($params);
 
+        //dump($cat);
+
+        $ads = Ads::findOrFail($id);
+
+        $adsCategories = Ads::findOrFail($id)->cat()->get();
+
+        //$categoriesList = $this->adsRepository->checkedLists($cat, $adsCategories);
+        $cat = $this->adsRepository->checkedLists($cat, $adsCategories);
+
+
+        /*
         foreach ($cat as $key1 => $value1) {
             foreach ($ads_cat as $key => $value) {
                 if ($key == $key1)

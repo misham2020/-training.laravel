@@ -4,8 +4,10 @@ namespace App\AdsRepository;
 
 use App\Models\Ads;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use App\Models\Image;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,29 +54,32 @@ class AdsRepository
         }
     }
 
-    public function listsModel($params)
+    public function listsModel($params): Collection
     {
-
-        $lists = $params::select(['title', 'id'])
-            ->get()
-            ->reduce(function ($carry, $item) {
-                $carry[$item->id] = $item->title;
-                return $carry;
-            }, []);
-        return $lists;
+        return $params::select(['title', 'id'])
+            ->pluck('title', 'id');
     }
 
-    public function lists($params)
+    public function lists(EloquentCollection $collection): Collection
     {
-        $lists = $params
-            ->reduce(function ($carry, $item) {
-                $carry[$item->id] = $item->title;
-                return $carry;
-            }, []);
-        return $lists;
+        return $collection
+            ->pluck('title', 'id');
     }
+
+    public function checkedLists(Collection $collectionAll, Collection $collectionCurrent)
+    {
+        dump($collectionCurrent);
+        dd($collectionAll->map(function ($item, $key) use ($collectionCurrent) {
+            if ($key === $collectionCurrent->get($key)->id) {
+
+            }
+        }));
+
+        //return $collectionAll->
+
+    }
+
     public function updateCategory_id(array $data, int $id)
-
     {
         $ads = Ads::findOrFail($id);
 
