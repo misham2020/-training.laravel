@@ -11,7 +11,7 @@ class AdsController extends Controller
     public function index()
     {
         $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
-        $ads = Ads::paginate(8);
+        $ads = Ads::paginate(5);
 
         return view('index.indexPage', compact('category', 'ads'));
     }
@@ -48,9 +48,9 @@ class AdsController extends Controller
 
     public function search(Request $request)
     {
-        $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
+        $category = Category::query()->withCount('ads')->orderByDesc('ads_count')->paginate(3);
         $search = $request->search;
-        $ads = Ads::query()->where('title', 'LIKE', "%{$search}%")->get();
+        $ads = Ads::query()->where('title', 'LIKE', "%{$search}%")->paginate(2);
         return view('index.indexPage', compact('category', 'ads'));
     }
 

@@ -52,9 +52,10 @@ class AdsRepository
         }
     }
 
-    public function listsCategory()
+    public function listsModel($params)
     {
-        $lists = Category::select(['title', 'id'])
+
+        $lists = $params::select(['title', 'id'])
             ->get()
             ->reduce(function ($carry, $item) {
                 $carry[$item->id] = $item->title;
@@ -63,6 +64,15 @@ class AdsRepository
         return $lists;
     }
 
+    public function lists($params)
+    {
+        $lists = $params
+            ->reduce(function ($carry, $item) {
+                $carry[$item->id] = $item->title;
+                return $carry;
+            }, []);
+        return $lists;
+    }
     public function updateCategory_id(array $data, int $id)
 
     {

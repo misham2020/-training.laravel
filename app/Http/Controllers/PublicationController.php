@@ -39,7 +39,8 @@ class PublicationController extends Controller
      */
     public function create()
     {
-        $lists = $this->a_rep->listsCategory();
+        $params = '\App\Models\Category';
+        $lists = $this->a_rep->listsCategory($params);
 
         return view('publication.create.createPage', compact('lists'));
 
@@ -91,8 +92,21 @@ class PublicationController extends Controller
      */
     public function edit(int $id)
     {
+        $params = '\App\Models\Category';
+        $cat = $this->a_rep->listsModel($params);
+        $ads = Ads::findOrFail($id);
+        /*$ads_cat = Ads::findOrFail($id)->cat()->get();
+        $ads_cat = $this->a_rep->lists($ads_cat);
 
-        $cat = $this->a_rep->listsCategory();
+        foreach ($cat as $key1 => $value1) {
+            foreach ($ads_cat as $key => $value) {
+                if ($key == $key1)
+                    $cat[$key1] = ['title' => $value1, 'checked' => true];
+                else
+                    $cat[$key1] = ['title' => $value1, 'checked' => false];
+            }
+        }*/
+
         $ads = Ads::findOrFail($id);
         return view('publication.create.createPage', compact('ads', 'cat'));
     }
