@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\AdsRepository\AdsRepository;
 use App\Http\Requests\AdsRequest;
 use Illuminate\View\View;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 class PublicationController extends Controller
 {
@@ -28,7 +29,7 @@ class PublicationController extends Controller
         $this->adsRepository = $adsRepository;
     }
 
-    public function index()
+    public function index(): View
     {
         $user = Auth::user()->id;
         $ads = Ads::where('user_id', $user)->get();
@@ -36,7 +37,7 @@ class PublicationController extends Controller
         return view('publication.index.indexPage', compact('ads'));
     }
 
-    public function create()
+    public function create(): View
 
     {
         $params = Category::class;
@@ -63,8 +64,6 @@ class PublicationController extends Controller
             Log::error($exception->getMessage());
             DB::rollBack();
         }
-
-        //return redirect(route('index.publication'));
     }
 
     /**
@@ -87,23 +86,10 @@ class PublicationController extends Controller
      */
     public function edit(int $id): View
     {
-        $params = Category::class;
-        $cat = $this->adsRepository->listsModel($params);
-        $ads = Ads::findOrFail($id);
+        $class = Category::class;
+        $listsModel = $this->adsRepository->listsModel($class);
         $adsCategories = Ads::findOrFail($id)->cat()->get();
-
-        //$categoriesList = $this->adsRepository->checkedLists($cat, $adsCategories);
-        $cat = $this->adsRepository->checkedLists($cat, $adsCategories);
-        /*
-        foreach ($cat as $key1 => $value1) {
-            foreach ($ads_cat as $key => $value) {
-                if ($key == $key1)
-                    $cat[$key1] = ['title' => $value1, 'checked' => true];
-                else
-                    $cat[$key1] = ['title' => $value1, 'checked' => false];
-            }
-        }*/
-
+        $cat = $this->adsRepository->checkedLists($listsModel, $adsCategories);
         $ads = Ads::findOrFail($id);
         return view('publication.create.createPage', compact('ads', 'cat'));
     }

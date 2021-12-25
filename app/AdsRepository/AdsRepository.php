@@ -54,9 +54,9 @@ class AdsRepository
         }
     }
 
-    public function listsModel($params): Collection
+    public function listsModel($class): Collection
     {
-        return $params::select(['title', 'id'])
+        return $class::select(['title', 'id'])
             ->pluck('title', 'id');
     }
 
@@ -73,21 +73,20 @@ class AdsRepository
                 if ($item->id === $key1) {
                     $item1 = (collect($item1));
                     $item1 = $item1->put($key1, 'checked')->values();
-                    foreach ($item1 as $key => $i) {
-                        if ($i === false) {
+                    foreach ($item1 as $key => $item) {
+                        if ($item === false) {
                             $item1->forget($key);
                         }
                     }
                     return $item1->values();
                 }
                 $item1 = (collect($item1));
-                foreach ($item1 as $i) {
-                    if ($i === false || $i === 'checked') {
+                foreach ($item1 as $item) {
+                    if ($item === false || $item === 'checked') {
                         return $item1->values();
                     }
                 }
-                $item1 = $item1->put($key1, false)->values();
-                return $item1;
+                return  $item1->put($key1, false)->values();
             }));
         }));
         return $collectionAll;
