@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\AdsRepository\AdsRepository;
 use App\Http\Requests\AdsRequest;
+use Illuminate\View\View;
 
 class PublicationController extends Controller
 {
+    /** @var AdsRepository */
+    private $adsRepository;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct(AdsRepository $a_rep)
+    public function __construct(AdsRepository $adsRepository)
     {
-        $this->a_rep = $a_rep;
-     }
+        $this->adsRepository = $adsRepository;
+    }
 
     public function index()
     {
@@ -32,33 +36,24 @@ class PublicationController extends Controller
         return view('publication.index.indexPage', compact('ads'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
+
     {
-        $params = '\App\Models\Category';
-        $lists = $this->a_rep->listsCategory($params);
+        $params = Category::class;
+        $lists = $this->adsRepository->listsModel($params);
 
         return view('publication.create.createPage', compact('lists'));
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(AdsRequest $request)
     {
         try {
             DB::beginTransaction();
-            $ads_id = $this->a_rep->addAds($request);
-            $this->a_rep->addCatigory($request, $ads_id);
-            $this->a_rep->addImg($request, $ads_id);
+            $ads_id = $this->adsRepository->addAds($request);
+            $this->adsRepository->addCatigory($request, $ads_id);
+            $this->adsRepository->addImg($request, $ads_id);
 
 
             DB::commit();
@@ -88,16 +83,18 @@ class PublicationController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function edit(int $id)
+    public function edit(int $id): View
     {
-        $params = '\App\Models\Category';
-        $cat = $this->a_rep->listsModel($params);
+        $params = Category::class;
+        $cat = $this->adsRepository->listsModel($params);
         $ads = Ads::findOrFail($id);
-        /*$ads_cat = Ads::findOrFail($id)->cat()->get();
-        $ads_cat = $this->a_rep->lists($ads_cat);
+        $adsCategories = Ads::findOrFail($id)->cat()->get();
 
+        //$categoriesList = $this->adsRepository->checkedLists($cat, $adsCategories);
+        $cat = $this->adsRepository->checkedLists($cat, $adsCategories);
+        /*
         foreach ($cat as $key1 => $value1) {
             foreach ($ads_cat as $key => $value) {
                 if ($key == $key1)
@@ -111,13 +108,6 @@ class PublicationController extends Controller
         return view('publication.create.createPage', compact('ads', 'cat'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(AdsRequest $request, int $id)
     {
         $data = $request->except('_token', '_method');
@@ -129,10 +119,10 @@ class PublicationController extends Controller
                 $ads->update();
             }
             if (isset($data['category'])) {
-                $this->a_rep->deleteCategory_id($data, $id);
-                $this->a_rep->updateCategory_id($data, $id);
+                $this->adsRepository->deleteCategory_id($data, $id);
+                $this->adsRepository->updateCategory_id($data, $id);
             }
-            $this->a_rep->updateImage($request, $id);
+            $this->adsRepository->updateImage($request, $id);
             DB::commit();
             return redirect(route('index.publication'))->with('success', "Объявление №".$ads->id." была успешно обновлено.");
         }
@@ -143,12 +133,7 @@ class PublicationController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(int $id)
     {
         //

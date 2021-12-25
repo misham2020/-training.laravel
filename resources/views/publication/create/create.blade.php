@@ -58,12 +58,8 @@
                         {!!Form::label('Ad-category', 'Измените категорию:', ['class' => 'h4 label my-3'])!!}
                         @foreach($cat as $key => $item)
                             <p><input class="form-check-input" type="checkbox" name="category[]" value="{{ $key }}"
-                                      @foreach ($ads->cat as $category)
-                                      @if($category->id === $key )
-                                      checked
-                                      @endif
-                                      @endforeach>
-                                {{ $item }}</p>
+                                          {{$item[1]}}>
+                                {{ $item[0] }}</p>
                         @endforeach
                 </div>
                 @else
@@ -72,7 +68,7 @@
                         @foreach($lists as $key => $item)
 
                             <p><input class="form-check-input" type="checkbox" name="category[]"
-                                      value="{{ $key }}" required>{{ $item }} </p>
+                                      value="{{ $key }}">{{ $item }} </p>
 
                         @endforeach
                         @endif
