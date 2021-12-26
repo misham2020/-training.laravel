@@ -70,17 +70,10 @@ class AdsRepository
     {
         ($collectionCurrent->map(function ($item) use ($collectionAll) {
             ($collectionAll->transform(function ($item1, $key1) use ($item) {
+                $item1 = collect($item1);
                 if ($item->id === $key1) {
-                    $item1 = (collect($item1));
-                    $item1 = $item1->put($key1, 'checked')->values();
-                    foreach ($item1 as $key => $item) {
-                        if ($item === false) {
-                            $item1->forget($key);
-                        }
-                    }
-                    return $item1->values();
+                    return $item1->put($key1, 'checked')->filter()->values();
                 }
-                $item1 = (collect($item1));
                 foreach ($item1 as $item) {
                     if ($item === false || $item === 'checked') {
                         return $item1->values();
