@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ads;
+use App\Models\Flag;
 use App\Models\Image;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\AdsRepository\AdsRepository;
 use App\Http\Requests\AdsRequest;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 use phpDocumentor\Reflection\Types\Mixed_;
 
 class PublicationController extends Controller
@@ -18,21 +20,18 @@ class PublicationController extends Controller
     /** @var AdsRepository */
     private $adsRepository;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function __construct(AdsRepository $adsRepository)
     {
         $this->adsRepository = $adsRepository;
+        $this->adsRepository->change_flag();
     }
 
     public function index(): View
     {
         $user = Auth::user()->id;
-        $ads = Ads::where('user_id', $user)->get();
+
+        $ads = Ads::query()->where('user_id', $user)->get();
 
         return view('publication.index.indexPage', compact('ads'));
     }
@@ -40,9 +39,9 @@ class PublicationController extends Controller
     public function create(): View
 
     {
-        $params = Category::class;
-        $lists = $this->adsRepository->listsModel($params);
+        $class = Category::class;
 
+        $lists = $this->adsRepository->listsModel($class);
         return view('publication.create.createPage', compact('lists'));
 
     }
@@ -55,8 +54,6 @@ class PublicationController extends Controller
             $ads_id = $this->adsRepository->addAds($request);
             $this->adsRepository->addCatigory($request, $ads_id);
             $this->adsRepository->addImg($request, $ads_id);
-
-
             DB::commit();
             return redirect(route('index.publication'))->with('success', "Запись была успешно добавлена.");
         }

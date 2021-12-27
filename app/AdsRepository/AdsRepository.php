@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use App\Models\Image;
+use App\Models\Flag;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -16,13 +17,15 @@ class AdsRepository
     public function addAds($request)
     {
         $ads = new Ads();
+        $flag = Flag::query()->where('name', 'работает')->first()->id;
         $title = $request->title;
         $cost = $request->cost;
         $user = Auth::user()->id;
         $ads->create([
             'title' => $title,
             'cost' => $cost,
-            'user_id' => $user
+            'user_id' => $user,
+            'flags_id' => $flag
         ]);
         $ads_id = DB::getPdo()->lastInsertId();
         return $ads_id;
@@ -54,6 +57,21 @@ class AdsRepository
         }
     }
 
+    public function change_flag()
+    {
+        $flag = Flag::query()->where('name', 'просрочен')->first()->id;
+        $now_time = now()->timestamp;
+        $ads = Ads::all();
+        ($ads->map(function ($item) use ($now_time, $flag) {
+            $time = ($item->created_at)->timestamp;
+            $dif_time = $now_time - $time;
+            if ($dif_time > 10000) {
+                $ads = Ads::find($item->id);
+                Ads::where('id', $ads->id)->update(['flags_id' => $flag]);
+            }
+        }));
+    }
+
     public function listsModel($class): Collection
     {
         return $class::select(['title', 'id'])
@@ -79,7 +97,7 @@ class AdsRepository
                         return $item1->values();
                     }
                 }
-                return  $item1->put($key1, false)->values();
+                return $item1->put($key1, false)->values();
             }));
         }));
         return $collectionAll;

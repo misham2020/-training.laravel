@@ -13,7 +13,7 @@ class Ads extends Model
     //use Sluggable;
 
     protected $table = 'ads';
-    protected $fillable = ['title', 'cost', 'user_id'];
+    protected $fillable = ['title', 'cost', 'user_id', 'flags_id'];
 
     public function user()
     {

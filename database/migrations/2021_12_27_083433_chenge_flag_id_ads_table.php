@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Change2AdsTable extends Migration
+class ChengeFlagIdAdsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,8 @@ class Change2AdsTable extends Migration
         Schema::table('ads', function (Blueprint $table) {
             //
             $table->bigInteger('flags_id')->unsigned()->nullable();
-            $table->foreign('flags_id')->references('id')->on('flags');
+            $table->foreign('flags_id')->references('id')->on('flags')->onDelete('cascade')
+                ->onUpdate('cascade');
 
         });
     }
@@ -29,7 +30,8 @@ class Change2AdsTable extends Migration
     public function down()
     {
         Schema::table('ads', function (Blueprint $table) {
-            //
+            $table->dropForeign('ads_flags_id_foreign');
+            $table->dropColumn('flags_id');
         });
     }
 }

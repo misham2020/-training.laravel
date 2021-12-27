@@ -14,7 +14,7 @@
         </ul>
     </div>
 @endif
-@if(isset($ads))
+@if(count($ads))
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -65,7 +65,13 @@
     </div>
     </div>
 @else
-    <h2>У Вас пока нет объявлений</h2>
-    {!! Html::link(route('create.publication'),'Добавить  объявление',['class' => 'btn btn-the-salmon-dance-3']) !!}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="my-4 h3">У Вас пока нет объявлений</div>
+                {!! Html::link(route('create.publication'),'Добавить  объявление',['class' => 'btn btn-the-salmon-dance-3']) !!}
+            </div>
+        </div>
+    </div>
 @endif
 
