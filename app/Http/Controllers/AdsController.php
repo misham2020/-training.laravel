@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Ads;
 use App\Models\Category;
+use App\Models\Flag;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class AdsController extends Controller
 {
     public function index()
     {
+        $flag = Flag::query()->where('name', 'работает')->first()->id;
+        $ads = Ads::query()->where('flags_id', $flag)->paginate(5);
         $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
-        $ads = Ads::paginate(5);
 
         return view('index.indexPage', compact('category', 'ads'));
     }
