@@ -9,10 +9,17 @@ use Illuminate\Http\Request;
 
 class AdsController extends Controller
 {
+    private $flag;
+
+    public function __construct()
+    {
+        $this->flag = Flag::query()->where('name', 'работает')->first()->id;;
+
+    }
     public function index()
     {
-        $flag = Flag::query()->where('name', 'работает')->first()->id;
-        $ads = Ads::query()->where('flags_id', $flag)->paginate(5);
+
+        $ads = Ads::query()->where('flags_id', $this->flag)->paginate(5);
         $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
 
         return view('index.indexPage', compact('category', 'ads'));
@@ -28,7 +35,8 @@ class AdsController extends Controller
 
     public function ads()
     {
-        $ads = Ads::orderBy('title')->paginate(15);
+
+        $ads = Ads::query()->where('flags_id', $this->flag)->orderBy('title')->paginate(15);
 
         return view('ads.adsPage', compact('ads'));
     }
@@ -36,7 +44,7 @@ class AdsController extends Controller
     public function showCategory(int $id)
     {
         $cat = Category::findOrFail($id);
-        $category = Category::findOrFail($id)->ads()->paginate(4);
+        $category = Category::findOrFail($id)->ads()->where('flags_id', $this->flag)->paginate(4);
 
         return view('listAds.contentPageAds', compact('category', 'cat'));
     }
@@ -52,7 +60,8 @@ class AdsController extends Controller
     {
         $category = Category::query()->withCount('ads')->orderByDesc('ads_count')->paginate(3);
         $search = $request->search;
-        $ads = Ads::query()->where('title', 'LIKE', "%{$search}%")->paginate(2);
+        $ads = Ads::query()->where('flags_id', $this->flag)
+            ->where('title', 'LIKE', "%{$search}%")->paginate(2);
         return view('index.indexPage', compact('category', 'ads'));
     }
 
