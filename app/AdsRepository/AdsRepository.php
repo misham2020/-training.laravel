@@ -96,7 +96,6 @@ class AdsRepository
             return $item1->filter()->put($key1, false)->values();
 
         }));
-        dd($collectionAll);
         return $collectionAll;
     }
 
