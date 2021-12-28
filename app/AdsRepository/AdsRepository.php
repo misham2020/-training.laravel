@@ -65,7 +65,7 @@ class AdsRepository
         ($ads->map(function ($item) use ($now_time, $flag) {
             $time = ($item->created_at)->timestamp;
             $dif_time = $now_time - $time;
-            if ($dif_time > 10000) {
+            if ($dif_time > 100000) {
                 $ads = Ads::find($item->id);
                 Ads::where('id', $ads->id)->update(['flags_id' => $flag]);
             }
@@ -86,20 +86,17 @@ class AdsRepository
 
     public function checkedLists(Collection $collectionAll, Collection $collectionCurrent)
     {
-        ($collectionCurrent->map(function ($item) use ($collectionAll) {
-            ($collectionAll->transform(function ($item1, $key1) use ($item) {
-                $item1 = collect($item1);
+        ($collectionAll->transform(function ($item1, $key1) use ($collectionCurrent) {
+            $item1 = collect($item1);
+            foreach ($collectionCurrent as $item) {
                 if ($item->id === $key1) {
-                    return $item1->put($key1, 'checked')->filter()->values();
+                    return $item1->put($key1, 'checked')->values();
                 }
-                foreach ($item1 as $item) {
-                    if ($item === false || $item === 'checked') {
-                        return $item1->values();
-                    }
-                }
-                return $item1->put($key1, false)->values();
-            }));
+            }
+            return $item1->filter()->put($key1, false)->values();
+
         }));
+        dd($collectionAll);
         return $collectionAll;
     }
 

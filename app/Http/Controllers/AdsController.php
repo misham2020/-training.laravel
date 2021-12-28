@@ -13,14 +13,18 @@ class AdsController extends Controller
 
     public function __construct()
     {
-        $this->flag = Flag::query()->where('name', 'работает')->first()->id;;
+        $this->flag = Flag::query()->where('name', 'работает')->first()->id;
 
     }
     public function index()
     {
 
-        $ads = Ads::query()->where('flags_id', $this->flag)->paginate(5);
-        $category = Category::withCount('ads')->orderByDesc('ads_count')->paginate(3);
+        $ads = Ads::query()->where('flags_id', $this->flag)
+            ->paginate(5);
+
+        $category = Category::withCount('ads')
+            ->orderByDesc('ads_count')
+            ->paginate(3);
 
         return view('index.indexPage', compact('category', 'ads'));
     }
@@ -28,7 +32,9 @@ class AdsController extends Controller
     public function category()
     {
 
-        $category = Category::withCount('ads')->orderByDesc('ads_count')->get();
+        $category = Category::withCount('ads')
+            ->orderByDesc('ads_count')
+            ->get();
 
         return view('category.contentPageCategory', compact('category'));
     }
@@ -36,7 +42,9 @@ class AdsController extends Controller
     public function ads()
     {
 
-        $ads = Ads::query()->where('flags_id', $this->flag)->orderBy('title')->paginate(15);
+        $ads = Ads::query()->where('flags_id', $this->flag)
+            ->orderBy('title')
+            ->paginate(15);
 
         return view('ads.adsPage', compact('ads'));
     }
@@ -44,7 +52,10 @@ class AdsController extends Controller
     public function showCategory(int $id)
     {
         $cat = Category::findOrFail($id);
-        $category = Category::findOrFail($id)->ads()->where('flags_id', $this->flag)->paginate(4);
+
+        $category = Category::findOrFail($id)->ads()
+            ->where('flags_id', $this->flag)
+            ->paginate(4);
 
         return view('listAds.contentPageAds', compact('category', 'cat'));
     }
@@ -58,10 +69,16 @@ class AdsController extends Controller
 
     public function search(Request $request)
     {
-        $category = Category::query()->withCount('ads')->orderByDesc('ads_count')->paginate(3);
+        $category = Category::query()->withCount('ads')
+            ->orderByDesc('ads_count')
+            ->paginate(3);
+
         $search = $request->search;
+
         $ads = Ads::query()->where('flags_id', $this->flag)
-            ->where('title', 'LIKE', "%{$search}%")->paginate(2);
+            ->where('title', 'LIKE', "%{$search}%")
+            ->paginate(2);
+
         return view('index.indexPage', compact('category', 'ads'));
     }
 
