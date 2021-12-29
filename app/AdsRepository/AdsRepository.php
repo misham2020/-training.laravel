@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AdsRepository
 {
+    const MONTH = 60 * 60 * 24 * 30;
+    const WEEK = 60 * 60 * 24 * 7;
+    const DAY = 60 * 60 * 24;
+
     public function addAds($request)
     {
         $ads = new Ads();
@@ -65,7 +69,7 @@ class AdsRepository
         ($ads->map(function ($item) use ($now_time, $flag) {
             $time = ($item->created_at)->timestamp;
             $dif_time = $now_time - $time;
-            if ($dif_time > 100000) {
+            if ($dif_time > self::MONTH) {
                 $ads = Ads::find($item->id);
                 Ads::where('id', $ads->id)->update(['flags_id' => $flag]);
             }
@@ -116,10 +120,8 @@ class AdsRepository
     public function deleteCategory_id(array $data, int $id)
 
     {
-        $category = Category::all()->reduce(function ($carry, $item) {
-            $carry[$item->id] = $item->title;
-            return $carry;
-        }, []);
+        $class = Category::class;
+        $category = $this->listsModel($class);
         foreach ($category as $key => $item) {
             foreach ($data['category'] as $value) {
                 if ($key != $value) {

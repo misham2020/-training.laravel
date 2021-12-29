@@ -40,10 +40,9 @@ class PublicationController extends Controller
 
     {
         $class = Category::class;
-
         $lists = $this->adsRepository->listsModel($class);
-        return view('publication.create.createPage', compact('lists'));
 
+        return view('publication.create.createPage', compact('lists'));
     }
 
 
@@ -88,6 +87,7 @@ class PublicationController extends Controller
         $adsCategories = Ads::findOrFail($id)->cat()->get();
         $cat = $this->adsRepository->checkedLists($listsModel, $adsCategories);
         $ads = Ads::findOrFail($id);
+
         return view('publication.create.createPage', compact('ads', 'cat'));
     }
 
@@ -119,7 +119,6 @@ class PublicationController extends Controller
 
     public function destroy(int $id)
     {
-        //
         $ads = Ads::find($id);
         $ads->delete();
         return redirect(route('index.publication'));

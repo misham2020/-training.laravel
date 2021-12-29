@@ -9,17 +9,16 @@ use Illuminate\Http\Request;
 
 class AdsController extends Controller
 {
-    private $flag;
 
-    public function __construct()
+    public function getStatusId()
     {
-        $this->flag = Flag::query()->where('name', 'работает')->first()->id;
-
+        return Flag::query()->where('name', 'работает')->first()->id;
     }
+
     public function index()
     {
 
-        $ads = Ads::query()->where('flags_id', $this->flag)
+        $ads = Ads::query()->where('flags_id', $this->getStatusId())
             ->paginate(5);
 
         $category = Category::withCount('ads')
@@ -42,7 +41,7 @@ class AdsController extends Controller
     public function ads()
     {
 
-        $ads = Ads::query()->where('flags_id', $this->flag)
+        $ads = Ads::query()->where('flags_id', $this->getStatusId())
             ->orderBy('title')
             ->paginate(15);
 
@@ -54,7 +53,7 @@ class AdsController extends Controller
         $cat = Category::findOrFail($id);
 
         $category = Category::findOrFail($id)->ads()
-            ->where('flags_id', $this->flag)
+            ->where('flags_id', $this->getStatusId())
             ->paginate(4);
 
         return view('listAds.contentPageAds', compact('category', 'cat'));
@@ -75,7 +74,7 @@ class AdsController extends Controller
 
         $search = $request->search;
 
-        $ads = Ads::query()->where('flags_id', $this->flag)
+        $ads = Ads::query()->where('flags_id', $this->getStatusId())
             ->where('title', 'LIKE', "%{$search}%")
             ->paginate(2);
 
