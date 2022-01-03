@@ -4,9 +4,7 @@
             <div class="col-md-6">
                 <ul>
                     @foreach($ads as $item)
-                        @foreach($item->cat as $catgory)
-                            <li><a href="{{ 'ads/'.$catgory->slug.'/'.$item->id }}">{{ $item->title }}</a></li>
-                        @endforeach
+                            <li><a href="{{ 'ads/'.$item->cat()->first()->slug.'/'.$item->id }}">{{ $item->title }}</a></li>
                     @endforeach
                 </ul>
             </div>

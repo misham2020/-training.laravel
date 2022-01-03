@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class AdsController extends Controller
 {
+    private $content;
 
     public function getStatusId()
     {
@@ -25,7 +26,8 @@ class AdsController extends Controller
             ->orderByDesc('ads_count')
             ->paginate(3);
 
-        return view('index.indexPage', compact('category', 'ads'));
+        $this->content = view('index.index', compact('category', 'ads'))->render();
+        return view('index.indexPage')->with('content',$this->content);
     }
 
     public function category()
@@ -35,17 +37,19 @@ class AdsController extends Controller
             ->orderByDesc('ads_count')
             ->get();
 
-        return view('category.contentPageCategory', compact('category'));
+        $this->content = view('category.listCatygory', compact('category'))->render();
+        return view('index.indexPage')->with('content',$this->content);
     }
 
     public function ads()
     {
-
         $ads = Ads::query()->where('flags_id', $this->getStatusId())
             ->orderBy('title')
             ->paginate(15);
 
-        return view('ads.adsPage', compact('ads'));
+        $this->content = view('ads.ads', compact('ads'))->render();
+        return view('index.indexPage')->with('content',$this->content);
+
     }
 
     public function showCategory(int $id)
@@ -56,14 +60,18 @@ class AdsController extends Controller
             ->where('flags_id', $this->getStatusId())
             ->paginate(4);
 
-        return view('listAds.contentPageAds', compact('category', 'cat'));
+        $this->content = view('listAds.listAds', compact('category', 'cat'))->render();
+        return view('index.indexPage')->with('content',$this->content);
+
+
     }
 
     public function showAds(string $slug, int $id)
     {
         $ads = Ads::findOrFail($id);
-
-        return view('showAds.showAdsPage', compact('ads'));
+        $this->content = view('showAds.showAds', compact( 'ads'))->render();
+        return view('index.indexPage')->with('content',$this->content);
+        //return view('showAds.showAdsPage', compact('ads'));
     }
 
     public function search(Request $request)
@@ -78,7 +86,9 @@ class AdsController extends Controller
             ->where('title', 'LIKE', "%{$search}%")
             ->paginate(2);
 
-        return view('index.indexPage', compact('category', 'ads'));
+        $this->content = view('index.index', compact( 'category', 'ads'))->render();
+        return view('index.indexPage')->with('content',$this->content);
+        //return view('index.indexPage', compact('category', 'ads'));
     }
 
 }

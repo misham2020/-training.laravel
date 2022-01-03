@@ -1,4 +1,4 @@
-@section('create')
+
     @foreach(['success','danger'] as $status)
         @if(session()->has($status))
             <div class="alert alert-{{$status}} text-center">
@@ -93,4 +93,4 @@
             @endif
         </div>
     </div>
-@endsection
+

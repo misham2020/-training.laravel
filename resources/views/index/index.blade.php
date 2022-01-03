@@ -30,7 +30,7 @@
             </div>
         </div>
         <h3 class="my-3">Объявления:</h3>
-        @if(count($ads))
+        @if(isset($ads))
             <div class="row row-cols-5">
                 @foreach($ads as $item)
                     <div class="col">
