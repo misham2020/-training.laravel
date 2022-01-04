@@ -34,8 +34,8 @@ class PublicationController extends Controller
 
         $ads = Ads::query()->where('user_id', $user)->get();
 
-        $this->content = view('publication.index.index', compact( 'ads'))->render();
-        return view('index.indexPage')->with('content',$this->content);
+        $this->content = view('publication.index', compact( 'ads'))->render();
+        return view('indexPage')->with('content',$this->content);
     }
 
     public function create(): View
@@ -44,8 +44,8 @@ class PublicationController extends Controller
         $class = Category::class;
         $lists = $this->adsRepository->listsModel($class);
 
-        $this->content = view('publication.create.create', compact( 'lists'))->render();
-        return view('index.indexPage')->with('content',$this->content);
+        $this->content = view('publication.create', compact( 'lists'))->render();
+        return view('indexPage')->with('content',$this->content);
 
     }
 
@@ -92,8 +92,8 @@ class PublicationController extends Controller
         $cat = $this->adsRepository->checkedLists($listsModel, $adsCategories);
         $ads = Ads::findOrFail($id);
 
-        $this->content = view('publication.create.create', compact('ads', 'cat'))->render();
-        return view('index.indexPage')->with('content',$this->content);
+        $this->content = view('publication.create', compact('ads', 'cat'))->render();
+        return view('indexPage')->with('content',$this->content);
     }
 
     public function update(AdsRequest $request, int $id)
