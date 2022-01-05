@@ -18,9 +18,9 @@ class FlagsTableSeeder extends Seeder
         if (empty($flags_count)) {
             DB::table('flags')->insert(
                 [
-                    ['name' => "просрочен"],
-                    ['name' => "работает"],
-                    ['name' => "премиум"]
+                    ['name' => "rejection"],
+                    ['name' => "work"],
+                    ['name' => "premium"]
                 ]
             );
         }

@@ -18,10 +18,15 @@ class AdsRepository
     const WEEK = 60 * 60 * 24 * 7;
     const DAY = 60 * 60 * 24;
 
+    public function getStatusId($status)
+    {
+        return Flag::query()->where('name', $status)->first()->id;
+    }
+
     public function addAds($request)
     {
         $ads = new Ads();
-        $flag = Flag::query()->where('name', 'работает')->first()->id;
+        $flag = $this->getStatusId('work');
         $title = $request->title;
         $cost = $request->cost;
         $user = Auth::user()->id;
@@ -63,7 +68,7 @@ class AdsRepository
 
     public function change_flag()
     {
-        $flag = Flag::query()->where('name', 'просрочен')->first()->id;
+        $flag = $this->getStatusId('rejection');
         $now_time = now()->timestamp;
         $ads = Ads::all();
         ($ads->map(function ($item) use ($now_time, $flag) {

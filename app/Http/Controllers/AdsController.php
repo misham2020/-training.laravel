@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AdsRepository\AdsRepository;
 use App\Models\Ads;
 use App\Models\Category;
 use App\Models\Flag;
@@ -9,17 +10,18 @@ use Illuminate\Http\Request;
 
 class AdsController extends Controller
 {
+    private $adsRepository;
     private $content;
 
-    public function getStatusId()
+
+    public function __construct(AdsRepository $adsRepository)
     {
-        return Flag::query()->where('name', 'работает')->first()->id;
+        $this->adsRepository = $adsRepository;
     }
 
     public function index()
     {
-
-        $ads = Ads::query()->where('flags_id', $this->getStatusId())
+        $ads = Ads::query()->where('flags_id', $this->adsRepository->getStatusId('work'))
             ->paginate(5);
 
         $category = Category::withCount('ads')
@@ -43,7 +45,7 @@ class AdsController extends Controller
 
     public function ads()
     {
-        $ads = Ads::query()->where('flags_id', $this->getStatusId())
+        $ads = Ads::query()->where('flags_id', $this->adsRepository->getStatusId('work'))
             ->orderBy('title')
             ->paginate(15);
 
@@ -57,7 +59,7 @@ class AdsController extends Controller
         $cat = Category::findOrFail($id);
 
         $category = Category::findOrFail($id)->ads()
-            ->where('flags_id', $this->getStatusId())
+            ->where('flags_id', $this->adsRepository->getStatusId('work'))
             ->paginate(4);
 
         $this->content = view('ads.listAds', compact('category', 'cat'))->render();
@@ -82,7 +84,7 @@ class AdsController extends Controller
 
         $search = $request->search;
 
-        $ads = Ads::query()->where('flags_id', $this->getStatusId())
+        $ads = Ads::query()->where('flags_id', $this->adsRepository->getStatusId('work'))
             ->where('title', 'LIKE', "%{$search}%")
             ->paginate(2);
 
@@ -90,5 +92,4 @@ class AdsController extends Controller
         return view('indexPage')->with('content',$this->content);
 
     }
-
 }
