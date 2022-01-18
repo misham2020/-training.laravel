@@ -31,14 +31,14 @@
         </div>
         <h3 class="my-3">Объявления:</h3>
         @if(count($ads))
-            <div class="row row-cols-5">
+            <div class="row">
                 @foreach($ads as $item)
-                    <div class="col">
+                    <div class="col-lg-3 col-md-6 col-12">
                         <div><a href="{{'ads/'.$item->cat->first()->slug.'/'. $item->id }}"><strong
                                     class="title">{{ Str::substr($item->title, 0, 25) }}</strong></a></div>
-                        <img class="img-fluid" src="{{ asset('storage/'.$item->imges->first()->path) }}"
-                             style="height:160px;width:240px;"
-                             alt="">
+                        <img class="img-fluid" src="{{ asset('storage/'.$item->imges->first()->path) }}">
+<!--                             style="height:160px;width:240px;"
+                             alt=""-->
                         <div>{{ $item->cost.'руб' }}</div>
                     </div>
                 @endforeach
